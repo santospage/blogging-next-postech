@@ -1,13 +1,10 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+node_modules/
+npm-debug.log
 
 # testing
 /coverage
+/dist
 
 # next.js
 .next/
@@ -27,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-# .env*.local
+.env*.local
 .env
 # .env.local
 .env.development.local
@@ -72,3 +69,6 @@ yarn-error.log*
 # Additional files to ignore (e.g., temporary files)
 *.swp
 *.bak
+
+# Arquivo de configuração prettier
+.prettierrc
