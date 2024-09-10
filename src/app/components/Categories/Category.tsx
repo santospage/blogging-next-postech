@@ -2,9 +2,9 @@
 import { CategoryContext } from '@/context/CategoryContext';
 import React, { useContext } from 'react';
 import styles from '@/app/components/Categories/categories.module.css';
-import { CategoryProps } from '@/interfaces/Categories/ICategories';
+import { ICategoryProps } from '@/interfaces/Categories/ICategories';
 
-const Category = ({ cat }: CategoryProps) => {
+const Category = ({ cat }: ICategoryProps) => {
   const { changeCategory }: any = useContext(CategoryContext);
 
   return (

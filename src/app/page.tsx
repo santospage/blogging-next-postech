@@ -1,36 +1,14 @@
 import Categories from '@/app/components/Categories/Categories';
 import Classes from '@/app/components/Classes/Classes';
 import styles from './page.module.css';
-
-async function fetchCategories() {
-  try {
-    const apiUrl = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`,
-    );
-    const response = await apiUrl.json();
-    return response;
-  } catch (error) {
-    console.error('Error fetching categories:', error);
-    return [];
-  }
-}
-
-async function fetchClasses() {
-  try {
-    const apiUrl = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes`,
-    );
-    const response = await apiUrl.json();
-    return response;
-  } catch (error) {
-    console.error('Error fetching classes:', error);
-    return [];
-  }
-}
+import { categoriesService } from '@/services/Categories/CategoriesService';
+import { ICategory } from '@/interfaces/Categories/ICategories';
+import { classesService } from '@/services/Classes/ClassesService';
+import { IClasses } from '@/interfaces/Classes/IClasses';
 
 export default async function Home() {
-  const categories = await fetchCategories();
-  const classes = await fetchClasses();
+  const categories: ICategory[] = await categoriesService.getCategories();
+  const classes: IClasses[] = await classesService.getClasses();
 
   return (
     <main className={styles.main}>
@@ -39,7 +17,7 @@ export default async function Home() {
       ) : (
         <div>Não foi possível carregar as categorias!</div>
       )}
-      {classes.length > 0 ? (
+      {classes ? (
         <Classes classes={classes} />
       ) : (
         <div>Não foi possível carregar as aulas!</div>

@@ -3,11 +3,11 @@ export interface ICategory {
   name: string;
 }
 
-export interface ICategories {
-  categories: [ICategory];
+interface ICategories {
+  categories: ICategory[];
 }
 
-export interface CategoryProps {
+export interface ICategoryProps {
   cat: {
     _id: string;
     name: string;
