@@ -9,10 +9,13 @@ import { ICategory } from '@/interfaces/Categories/ICategories';
 const Categories = ({ categories }: ICategories) => {
   const { changeCategory }: any = useContext(CategoryContext);
 
+  // Garantir que categories seja um array válido
+  if (!categories || !Array.isArray(categories)) {
+    return <div>Nenhuma categoria encontrada!</div>;
+  }
+
   // Adiciona a categoria "Todos" no início da lista
-  const updatedCategories = Array.isArray(categories)
-    ? [{ _id: 'all', name: 'Todas' }, ...categories]
-    : [{ _id: 'all', name: 'Todas' }];
+  const updatedCategories = [{ _id: 'all', name: 'Todas' }, ...categories];
 
   useLayoutEffect(() => {
     changeCategory('Todas');

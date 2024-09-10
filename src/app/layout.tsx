@@ -23,11 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ptg">
+    <html lang="pt">
       <body className={inter.className}>
-        <div className="w-full">
+        <div className="layout-container">
           <Header />
-          <CategoryProvider>{children}</CategoryProvider>
+          <main>
+            <CategoryProvider>{children}</CategoryProvider>
+          </main>
           <Footer />
         </div>
       </body>
