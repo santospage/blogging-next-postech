@@ -15,12 +15,12 @@ export default async function Home() {
       {categories.length > 0 ? (
         <Categories categories={categories} />
       ) : (
-        <div>Não foi possível carregar as categorias!</div>
+        <div>Unable to load categories!</div>
       )}
       {classes ? (
         <Classes classes={classes} />
       ) : (
-        <div>Não foi possível carregar as aulas!</div>
+        <div>Unable to load classes!</div>
       )}
     </main>
   );

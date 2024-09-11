@@ -9,21 +9,21 @@ export const Header = () => {
     <header className={styles.header}>
       <nav className={styles.nav}>
         <Link href="/">
-          <Image src={logo} alt="Aulas" width={50} height={10} priority />
+          <Image src={logo} alt="Classes" width={50} height={10} priority />
         </Link>
         <ul>
           <li>
             <Link href="/">Home</Link>
           </li>
-          <li>Aulas</li>
-          <li>Categorias</li>
-          <li>Usuários</li>
+          <li>Classes</li>
+          <li>Categories</li>
+          <li>Users</li>
         </ul>
       </nav>
       <div className={styles.search}>
         <form action="">
-          <input type="text" placeholder="Digite a aula" />
-          <button>Buscar</button>
+          <input type="text" placeholder="Enter the class" />
+          <button>Search</button>
         </form>
       </div>
     </header>

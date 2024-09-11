@@ -3,7 +3,7 @@ export interface ICategory {
   name: string;
 }
 
-interface ICategories {
+export interface ICategories {
   categories: ICategory[];
 }
 

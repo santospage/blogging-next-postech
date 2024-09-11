@@ -9,22 +9,22 @@ import { ICategory } from '@/interfaces/Categories/ICategories';
 const Categories = ({ categories }: ICategories) => {
   const { changeCategory }: any = useContext(CategoryContext);
 
-  // Garantir que categories seja um array válido
+  // Ensure categories is a valid array
   if (!categories || !Array.isArray(categories)) {
     return <div>Nenhuma categoria encontrada!</div>;
   }
 
-  // Adiciona a categoria "Todos" no início da lista
-  const updatedCategories = [{ _id: 'all', name: 'Todas' }, ...categories];
+  // Initializes categories with "All" at the beginning of the list
+  const updatedCategories = [{ _id: 'all', name: 'All' }, ...categories];
 
   useLayoutEffect(() => {
-    changeCategory('Todas');
+    changeCategory('All');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section className={styles.categorias}>
-      <h3>Busque por categoria:</h3>
+      <h3>Search by category:</h3>
       <div className={styles.container}>
         {updatedCategories?.map((category: ICategory) => (
           <div key={category._id}>

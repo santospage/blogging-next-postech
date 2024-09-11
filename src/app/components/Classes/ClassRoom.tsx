@@ -5,7 +5,7 @@ import { IClassRoom } from '@/interfaces/Classes/IClasses';
 
 const ClassRoom = ({ classroom }: IClassRoom) => {
   const truncatedResume =
-    classroom.resume?.substring(0, 80) + '...' || 'Descrição indisponível';
+    `${classroom.resume?.substring(0, 80)} ...` || 'Description unavailable';
 
   return (
     <section className={styles.classes}>
@@ -16,7 +16,7 @@ const ClassRoom = ({ classroom }: IClassRoom) => {
               width={350}
               height={200}
               src={classroom.image || ''}
-              alt={classroom.title || 'Título indisponível'}
+              alt={classroom.title || 'Title unavailable'}
               style={{
                 objectFit: 'cover',
               }}
@@ -26,7 +26,7 @@ const ClassRoom = ({ classroom }: IClassRoom) => {
           <section className={styles.info}>
             <p className={styles.info}>{truncatedResume}</p>
             <Link href={`/classroom/${classroom._id}`}>
-              <button className={styles.botao}>Ver mais</button>
+              <button className={styles.button}>See more</button>
             </Link>
           </section>
         </div>

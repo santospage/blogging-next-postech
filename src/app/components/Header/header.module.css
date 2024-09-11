@@ -17,7 +17,7 @@
 
 .nav ul {
   display: flex;
-  gap: 80px;
+  gap: 30px;
   margin: 0;
   padding: 0;
 }

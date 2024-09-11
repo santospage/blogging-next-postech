@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Blogging',
-  description: 'Blogging Dinâmico de Aulas',
+  description: 'Dynamic Class Blogging',
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
+    <html lang="eng">
       <body className={inter.className}>
         <div className="layout-container">
           <Header />

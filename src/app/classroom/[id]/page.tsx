@@ -12,7 +12,7 @@ async function generateStaticParams(id: number) {
     const response = await apiUrl.json();
     return response;
   } catch (error) {
-    return { error: 'Falha ao carregar os dados da aula' };
+    return { error: 'Failed to load class data' };
   }
 }
 
@@ -23,7 +23,7 @@ const ClassRoomPage = async ({ params }: any) => {
     <div className={styles.classroom}>
       <div className={styles.header}>
         <Link href="/" className={styles['back-link']}>
-          <FaArrowLeft className={styles['icon']} /> Voltar
+          <FaArrowLeft className={styles['icon']} /> Back
         </Link>
       </div>
       <h1 className={styles.title}>{classRoom.title}</h1>
@@ -33,7 +33,7 @@ const ClassRoomPage = async ({ params }: any) => {
           width={700}
           height={200}
           src={classRoom.image || ''}
-          alt={classRoom.title || 'Título indisponível'}
+          alt={classRoom.title || 'Title unavailable'}
           style={{
             objectFit: 'cover',
           }}
@@ -41,9 +41,9 @@ const ClassRoomPage = async ({ params }: any) => {
         />
       </figure>
       <div className={styles.publication}>
-        <span>Responsável: {classRoom.user.user}</span>
+        <span>Responsible: {classRoom.user.user}</span>
         <span>
-          Publicado em: {new Date(classRoom.updatedAt).toLocaleString()}
+          Published in: {new Date(classRoom.updatedAt).toLocaleString()}
         </span>
       </div>
     </div>

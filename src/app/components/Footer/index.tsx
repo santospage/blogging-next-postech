@@ -4,7 +4,7 @@ import styles from './footer.module.css';
 export const Footer = () => {
   return (
     <section className={styles.footer}>
-      <h3 className={styles.footerHead}>Blogging Dinâmico de Aulas</h3>
+      <h3 className={styles.footerHead}>Dynamic Class Blogging</h3>
     </section>
   );
 };
