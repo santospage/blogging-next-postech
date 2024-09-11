@@ -3,15 +3,14 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "next/core-web-vitals"],
+  "extends": "eslint:recommended",
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
   "rules": {
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "max-len": ["error", { "code": 80 }]
+    "quotes": ["error", "single"], // Força o uso de aspas simples
+    "semi": ["error", "always"], // Força o uso de ponto e vírgula
+    "max-len": ["error", { "code": 80 }] // Força o limite de 80 caracteres por linha
   }
 }

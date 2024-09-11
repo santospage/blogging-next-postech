@@ -4,5 +4,14 @@ export interface ICategory {
 }
 
 export interface ICategories {
-  categories: [ICategory];
+  categories: ICategory[];
+}
+
+export interface ICategoryProps {
+  cat: {
+    _id: string;
+    name: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
 }

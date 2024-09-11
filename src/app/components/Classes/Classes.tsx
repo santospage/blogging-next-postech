@@ -8,11 +8,16 @@ import { IClasses } from '@/interfaces/Classes/IClasses';
 const Classes = ({ classes }: { classes: IClasses[] }) => {
   const { category }: any = useContext(CategoryContext);
 
-  // Verifica se a categoria é "Todas" ou vazia, e exibe todas as classes
+  // Checks if "classes" is a valid array
+  if (!Array.isArray(classes) || classes.length === 0) {
+    return <div>No classes available!</div>;
+  }
+
+  // Checks if the category is "All" or empty, and displays all classes
   const filteredClasses =
-    category && category !== 'Todas'
+    category && category !== 'All'
       ? classes.filter(
-          (classroom: IClasses) => classroom.category.name === category
+          (classroom: IClasses) => classroom.category.name === category,
         )
       : classes;
 

@@ -2,16 +2,17 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import styles from '../../classroom/classroom.module.css';
+import { FaArrowLeft } from 'react-icons/fa';
 
 async function generateStaticParams(id: number) {
   try {
     const apiUrl = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes/${id}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes/${id}`,
     );
     const response = await apiUrl.json();
     return response;
   } catch (error) {
-    console.log(error);
+    return { error: 'Failed to load class data' };
   }
 }
 
@@ -21,16 +22,18 @@ const ClassRoomPage = async ({ params }: any) => {
   return (
     <div className={styles.classroom}>
       <div className={styles.header}>
-        <h1 className={styles.title}>{classRoom.title}</h1>
-        <Link href="/">{'< Voltar'}</Link>
+        <Link href="/" className={styles['back-link']}>
+          <FaArrowLeft className={styles['icon']} /> Back
+        </Link>
       </div>
+      <h1 className={styles.title}>{classRoom.title}</h1>
       <p className={styles.detail}>{classRoom.detail}</p>
       <figure>
         <Image
           width={700}
           height={200}
           src={classRoom.image || ''}
-          alt={classRoom.title || 'Título indisponível'}
+          alt={classRoom.title || 'Title unavailable'}
           style={{
             objectFit: 'cover',
           }}
@@ -38,9 +41,9 @@ const ClassRoomPage = async ({ params }: any) => {
         />
       </figure>
       <div className={styles.publication}>
-        <span>Responsável: {classRoom.user.user}</span>
+        <span>Responsible: {classRoom.user.user}</span>
         <span>
-          Publicado em: {new Date(classRoom.updatedAt).toLocaleString()}
+          Published in: {new Date(classRoom.updatedAt).toLocaleString()}
         </span>
       </div>
     </div>
