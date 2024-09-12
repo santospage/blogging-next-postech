@@ -1,15 +1,19 @@
 'use client';
+
+import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { CategoryModel } from '@/models/Categories/Categories';
 import { categoryService } from '@/services/Categories/CategoryService';
-import styles from '../../category/list/category.module.css';
-import React, { useState, useEffect } from 'react';
+import styles from '@/app/category/category.module.css';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const fetchCategories = async () => {
+  const generateStaticProps = async () => {
     console.log('Fetching categories...');
     try {
       const fetchedCategories = await categoryService.getCategories();
@@ -28,8 +32,24 @@ export default function CategoryPage() {
   };
 
   useEffect(() => {
-    fetchCategories();
+    generateStaticProps();
   }, []);
+
+  const deleteCategory = async (id: string) => {
+    const confirmDelete = confirm(
+      'Are you sure you want to delete this category?',
+    );
+    if (!confirmDelete) return;
+
+    try {
+      //await categoryService.deleteCategory(id);
+      console.log('Deleted category:', id);
+      setCategories(categories.filter((category) => category._id !== id));
+    } catch (error) {
+      console.error('Failed to delete category', error);
+      setError('Failed to delete category');
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (categories.length === 0) return <p>No categories found</p>;
@@ -38,7 +58,9 @@ export default function CategoryPage() {
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <h1>Category List</h1>
-        <button className={styles.button}>Add</button>
+        <Link href="/category/form/new">
+          <button className={styles.button}>Add</button>
+        </Link>
       </div>
 
       <div className={styles.gridContainer}>
@@ -47,8 +69,24 @@ export default function CategoryPage() {
             <div key={category._id} className={styles.gridItem}>
               <span>{category.name}</span>
               <div className={styles.actions}>
-                <button className={styles.button}>Edit</button>
-                <button className={styles.button}>Delete</button>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    sessionStorage.setItem(
+                      'selectedCategory',
+                      JSON.stringify(category),
+                    );
+                    router.push(`/category/form/${category._id}`);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => deleteCategory(category._id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

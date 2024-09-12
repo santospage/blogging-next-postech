@@ -1,6 +1,6 @@
 'use client';
 import React, { useContext, useLayoutEffect } from 'react';
-import Category from './Category';
+import Category from '@/app/components/Categories/Category';
 import { CategoryContext } from '@/context/CategoryContext';
 import styles from '@/app/components/Categories/categories.module.css';
 import { CategoriesModel } from '@/models/Categories/Categories';

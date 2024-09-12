@@ -3,8 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
 import { CategoryProvider } from '@/context/CategoryContext';
-import { Header } from '@/app/components/Header';
-import { Footer } from './components/Footer';
+import { Header } from '@/app/components/Header/page';
+import { Footer } from './components/Footer/page';
 
 const inter = Inter({
   weight: ['400', '500', '700'],

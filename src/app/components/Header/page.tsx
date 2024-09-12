@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './header.module.css';
-import logo from './logo.png';
+import styles from '@/app/components/Header/header.module.css';
+import logo from '../../../../public/logo.png';
 
 export const Header = () => {
   return (
@@ -16,7 +16,7 @@ export const Header = () => {
           </li>
           <li>Classes</li>
           <li>
-            <Link href="/categories">Categories</Link>
+            <Link href="/category/list">Categories</Link>
           </li>
           <li>Users</li>
         </ul>

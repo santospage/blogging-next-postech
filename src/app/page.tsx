@@ -1,6 +1,6 @@
 import Categories from '@/app/components/Categories/Categories';
 import Classes from '@/app/components/Classes/Classes';
-import styles from './page.module.css';
+import styles from '@/app/page.module.css';
 import { categoryService } from '@/services/Categories/CategoryService';
 import { CategoryModel } from '@/models/Categories/Categories';
 import { classroomService } from '@/services/Classes/ClassRoomService';

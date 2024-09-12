@@ -1,8 +1,6 @@
-import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import styles from '../../classroom/classroom.module.css';
-import { FaArrowLeft } from 'react-icons/fa';
+import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 
@@ -13,11 +11,6 @@ const ClassRoomPage = async ({ params }: any) => {
 
   return (
     <div className={styles.classroom}>
-      <div className={styles.header}>
-        <Link href="/" className={styles['back-link']}>
-          <FaArrowLeft className={styles['icon']} /> Back
-        </Link>
-      </div>
       <h1 className={styles.title}>{classRoom.title}</h1>
       <p className={styles.detail}>{classRoom.detail}</p>
       <figure>

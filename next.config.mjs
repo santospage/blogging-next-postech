@@ -8,12 +8,7 @@ const nextConfig = {
     appDir: true,
   },
   async rewrites() {
-    return [
-      {
-        source: '/categories/:path*',
-        destination: '/category/list',
-      },
-    ];
+    return [];
   },
   images: {
     remotePatterns: [
