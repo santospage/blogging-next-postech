@@ -62,3 +62,7 @@
   gap: 6px;
   margin-right: 10px;
 }
+
+.search button:hover {
+  background-color: #3700b3;
+}

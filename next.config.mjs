@@ -10,8 +10,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/components/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/components/:path*`,
+        source: '/categories/:path*',
+        destination: '/category/list',
       },
     ];
   },

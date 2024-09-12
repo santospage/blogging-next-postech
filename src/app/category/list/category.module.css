@@ -1,0 +1,61 @@
+/* category.module.css */
+.wrapper {
+  padding: 5px;
+}
+
+.container {
+  margin-bottom: 10px;
+}
+
+.gridContainer {
+  width: auto;
+  max-width: auto;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.gridItem {
+  background-color: #d9d9f3;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  padding: 2px 5px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #3299cc;
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.button:hover {
+  background-color: #3700b3;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+
+  text-align: center;
+}

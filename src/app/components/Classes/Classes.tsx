@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import ClassRoom from '@/app/components/Classes/ClassRoom';
 import { CategoryContext } from '@/context/CategoryContext';
 import styles from '@/app/components/Classes/classes.module.css';
-import { IClasses } from '@/interfaces/Classes/IClasses';
+import { ClassesModel } from '@/models/Classes/Classes';
 
-const Classes = ({ classes }: { classes: IClasses[] }) => {
+const Classes = ({ classes }: { classes: ClassesModel[] }) => {
   const { category }: any = useContext(CategoryContext);
 
   // Checks if "classes" is a valid array
@@ -17,7 +17,7 @@ const Classes = ({ classes }: { classes: IClasses[] }) => {
   const filteredClasses =
     category && category !== 'All'
       ? classes.filter(
-          (classroom: IClasses) => classroom.category.name === category,
+          (classroom: ClassesModel) => classroom.category.name === category,
         )
       : classes;
 

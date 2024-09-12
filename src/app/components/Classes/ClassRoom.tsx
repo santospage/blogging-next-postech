@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/app/components/Classes/classes.module.css';
-import { IClassRoom } from '@/interfaces/Classes/IClasses';
+import { ClassRoomPropsModel } from '@/models/Classes/Classes';
 
-const ClassRoom = ({ classroom }: IClassRoom) => {
+const ClassRoom = ({ classroom }: ClassRoomPropsModel) => {
   const truncatedResume =
     `${classroom.resume?.substring(0, 80)} ...` || 'Description unavailable';
 

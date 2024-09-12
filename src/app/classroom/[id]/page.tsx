@@ -3,21 +3,13 @@ import React from 'react';
 import Image from 'next/image';
 import styles from '../../classroom/classroom.module.css';
 import { FaArrowLeft } from 'react-icons/fa';
-
-async function generateStaticParams(id: number) {
-  try {
-    const apiUrl = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes/${id}`,
-    );
-    const response = await apiUrl.json();
-    return response;
-  } catch (error) {
-    return { error: 'Failed to load class data' };
-  }
-}
+import { classroomService } from '@/services/Classes/ClassRoomService';
+import { ClassRoomModel } from '@/models/Classes/Classes';
 
 const ClassRoomPage = async ({ params }: any) => {
-  const classRoom = await generateStaticParams(params.id);
+  const classRoom: ClassRoomModel = await classroomService.getClassesById(
+    params.id,
+  );
 
   return (
     <div className={styles.classroom}>

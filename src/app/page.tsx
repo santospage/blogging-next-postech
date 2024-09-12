@@ -1,14 +1,14 @@
 import Categories from '@/app/components/Categories/Categories';
 import Classes from '@/app/components/Classes/Classes';
 import styles from './page.module.css';
-import { categoriesService } from '@/services/Categories/CategoriesService';
-import { ICategory } from '@/interfaces/Categories/ICategories';
-import { classesService } from '@/services/Classes/ClassesService';
-import { IClasses } from '@/interfaces/Classes/IClasses';
+import { categoryService } from '@/services/Categories/CategoryService';
+import { CategoryModel } from '@/models/Categories/Categories';
+import { classroomService } from '@/services/Classes/ClassRoomService';
+import { ClassesModel } from '@/models/Classes/Classes';
 
 export default async function Home() {
-  const categories: ICategory[] = await categoriesService.getCategories();
-  const classes: IClasses[] = await classesService.getClasses();
+  const categories: CategoryModel[] = await categoryService.getCategories();
+  const classes: ClassesModel[] = await classroomService.getClasses();
 
   return (
     <main className={styles.main}>
