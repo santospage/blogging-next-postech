@@ -59,3 +59,25 @@
 
   text-align: center;
 }
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.labelText {
+  min-width: 100px;
+  font-weight: bold;
+}
+
+.input {
+  flex: 1;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 0px;
+  background-color: #d9d9f3;
+  margin-left: 10px;
+}

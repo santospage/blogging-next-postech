@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Formik, Form, Field } from 'formik';
 import { CategoryModel } from '@/models/Categories/Categories';
 import styles from '@/app/category/category.module.css';
 import { categoryService } from '@/services/Categories/CategoryService';
@@ -16,7 +17,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (id === 'new') {
       setIsEditMode(false);
-      setCategory({ _id: '', name: '' }); // Initializes with a new empty object
+      setCategory({ _id: '', name: '' });
       setLoading(false);
     } else {
       const storedCategory = sessionStorage.getItem('selectedCategory');
@@ -26,26 +27,25 @@ export default function FormPage({ params }: { params: { id: string } }) {
     }
   }, [id, router]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: CategoryModel) => {
     try {
       if (isEditMode) {
-        //await categoryService.updateCategory(id, category); // Update the category in the backend
+        // await categoryService.updateCategory(id, values); // Update the category in the backend
         alert('Category updated successfully');
       } else {
-        //await categoryService.createCategory(category); // Create the new category in the backend
+        // await categoryService.createCategory(values); // Create the new category in the backend
         alert('Category created successfully');
       }
     } catch (error) {
       console.error('Failed to submit category', error);
     }
 
-    sessionStorage.removeItem('selectedCategory'); // Clear sessionStorage after submission
+    sessionStorage.removeItem('selectedCategory');
     router.push('/category/list');
   };
 
   const handleCancel = () => {
-    sessionStorage.removeItem('selectedCategory'); // Clear sessionStorage after submission
+    sessionStorage.removeItem('selectedCategory');
     router.push('/category/list');
   };
 
@@ -56,26 +56,43 @@ export default function FormPage({ params }: { params: { id: string } }) {
       <div className={styles.title}>
         <h1>{isEditMode ? 'Edit Category' : 'Add Category'}</h1>
       </div>
-      <div className={styles.gridContainer}>
-        <div className={styles.grid}>
-          <input
-            type="text"
-            value={category?.name || ''}
-            onChange={(e) =>
-              setCategory({ ...category, _id: '', name: e.target.value })
-            }
-            placeholder="Category Name"
-          />
-        </div>
-      </div>
-      <div className={styles.actions}>
-        <button className={styles.button} onClick={handleSubmit}>
-          Confirm
-        </button>{' '}
-        <button className={styles.button} onClick={handleCancel}>
-          Cancel
-        </button>{' '}
-      </div>
+      <Formik
+        initialValues={{ _id: category?._id || '', name: category?.name || '' }}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ values, handleChange }) => (
+          <Form>
+            <div className={styles.gridContainer}>
+              <div className={styles.grid}>
+                <label className={styles.label}>
+                  Category:
+                  <Field
+                    className={styles.input}
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={values.name}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className={styles.actions}>
+              <button className={styles.button} type="submit">
+                Confirm
+              </button>
+              <button
+                className={styles.button}
+                type="button"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

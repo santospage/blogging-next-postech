@@ -1,4 +1,4 @@
-import { HttpClient } from '@/infra/httpclient/HttpClient';
+import { HttpClient } from '@/infra/HttpClient/HttpClient';
 
 export const classroomService = {
   async getClasses() {

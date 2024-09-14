@@ -6,17 +6,42 @@ import Link from 'next/link';
 import { CategoryModel } from '@/models/Categories/Categories';
 import { categoryService } from '@/services/Categories/CategoryService';
 import styles from '@/app/category/category.module.css';
+import { authService } from '@/services/Auth/authService';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const router = useRouter();
 
+  // Verifica a sessão e define o estado isLoggedIn
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const session = await authService.getSession();
+        setIsLoggedIn(session);
+      } catch (error) {
+        console.error('Error checking session:', error);
+        setIsLoggedIn(false); // ou true, dependendo da sua lógica de sessão
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  // Redireciona para a página de login se não estiver logado
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      router.push('/login');
+    }
+  }, [isLoggedIn, router]);
+
+  // Função para buscar categorias
   const generateStaticProps = async () => {
     console.log('Fetching categories...');
     try {
-      const fetchedCategories = await categoryService.getCategories();
+      const fetchedCategories = await categoryService.getCategoriesManagerial();
       console.log('Fetched Categories:', fetchedCategories);
       if (Array.isArray(fetchedCategories)) {
         setCategories(fetchedCategories);
@@ -32,8 +57,10 @@ export default function CategoryPage() {
   };
 
   useEffect(() => {
-    generateStaticProps();
-  }, []);
+    if (isLoggedIn === true) {
+      generateStaticProps();
+    }
+  }, [isLoggedIn]);
 
   const deleteCategory = async (id: string) => {
     const confirmDelete = confirm(
@@ -42,7 +69,7 @@ export default function CategoryPage() {
     if (!confirmDelete) return;
 
     try {
-      //await categoryService.deleteCategory(id);
+      // await categoryService.deleteCategory(id);
       console.log('Deleted category:', id);
       setCategories(categories.filter((category) => category._id !== id));
     } catch (error) {
