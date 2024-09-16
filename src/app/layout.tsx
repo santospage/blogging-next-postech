@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import '@/app/globals.css';
 import { CategoryProvider } from '@/context/CategoryContext';
 import { Header } from '@/app/header/page';
-import { Footer } from './footer/page';
+import { Footer } from '@//app/footer/page';
 
 const inter = Inter({
   weight: ['400', '500', '700'],
@@ -32,6 +34,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <ToastContainer /> {}
       </body>
     </html>
   );

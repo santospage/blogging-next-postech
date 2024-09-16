@@ -1,5 +1,5 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
-import { tokenService } from './tokenService';
+import { tokenService } from '@/services/Auth/tokenService';
 import { LoginValues } from '@/models/Login/LoginValues';
 
 export const authService = {

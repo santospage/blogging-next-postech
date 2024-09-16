@@ -1,5 +1,5 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
-import { tokenService } from '../Auth/tokenService';
+import { tokenService } from '@/services/Auth/tokenService';
 
 export const categoryService = {
   async getCategories() {

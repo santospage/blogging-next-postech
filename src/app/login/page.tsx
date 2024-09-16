@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { toast } from 'react-toastify';
 import styles from '@/app/login/login.module.css';
 import { authService } from '@/services/Auth/authService';
 import { useRouter } from 'next/navigation';
@@ -15,10 +16,11 @@ export default function LoginPage() {
     authService
       .login(values)
       .then(() => {
+        sessionStorage.setItem('loginStatus', 'loggedIn');
         router.push(redirectUrl);
       })
       .catch((error: Error) => {
-        alert(error.message);
+        toast.error(`Login failed: ${error.message}`);
       });
   };
 

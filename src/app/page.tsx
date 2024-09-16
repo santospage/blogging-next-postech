@@ -1,3 +1,8 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 import Categories from '@/app/components/Categories/Categories';
 import Classes from '@/app/components/Classes/Classes';
 import styles from '@/app/page.module.css';
@@ -6,22 +11,52 @@ import { CategoryModel } from '@/models/Categories/Categories';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { ClassesModel } from '@/models/Classes/Classes';
 
-export default async function Home() {
-  const categories: CategoryModel[] = await categoryService.getCategories();
-  const classes: ClassesModel[] = await classroomService.getClasses();
+export default function Home() {
+  const router = useRouter();
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
+  const [classes, setClasses] = useState<ClassesModel[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const sessionStatus = sessionStorage.getItem('loginStatus');
+    setIsLoggedIn(sessionStatus === 'loggedIn');
+
+    const fetchData = async () => {
+      try {
+        const categoriesData = await categoryService.getCategories();
+        const classesData = await classroomService.getClasses();
+        setCategories(categoriesData);
+        setClasses(classesData);
+      } catch (error) {
+        toast.error(`Failed to fetch data: ${(error as Error).message}`);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <main className={styles.main}>
-      {categories.length > 0 ? (
-        <Categories categories={categories} />
-      ) : (
-        <div>Unable to load categories!</div>
-      )}
-      {classes ? (
-        <Classes classes={classes} />
-      ) : (
-        <div>Unable to load classes!</div>
-      )}
+      <div className={styles.container}>
+        <div className={styles.search}>
+          <form action="">
+            <input type="text" placeholder="Enter the class" />
+            <button>Search</button>
+          </form>
+        </div>
+
+        {isLoggedIn ? (
+          <a href="/logout" className={styles.loginLink}>
+            Logout
+          </a>
+        ) : (
+          <a href="/login" className={styles.loginLink}>
+            Login
+          </a>
+        )}
+      </div>
+      {categories.length > 0 ? <Categories categories={categories} /> : <div />}
+      {classes.length > 0 ? <Classes classes={classes} /> : <div />}
     </main>
   );
 }

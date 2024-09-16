@@ -15,29 +15,29 @@ export default function CategoryPage() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const router = useRouter();
 
-  // Verifica a sessão e define o estado isLoggedIn
+  // Checks the session and sets the isLoggedIn state
   useEffect(() => {
     const checkSession = async () => {
       try {
         const session = await authService.getSession();
         setIsLoggedIn(session);
       } catch (error) {
-        console.error('Error checking session:', error);
-        setIsLoggedIn(false); // ou true, dependendo da sua lógica de sessão
+        setIsLoggedIn(false);
       }
     };
 
     checkSession();
   }, []);
 
-  // Redireciona para a página de login se não estiver logado
+  // Redirects to login page if not logged in
   useEffect(() => {
     if (isLoggedIn === false) {
+      sessionStorage.removeItem('loginStatus');
       router.push('/login');
     }
   }, [isLoggedIn, router]);
 
-  // Função para buscar categorias
+  // Search categories
   const generateStaticProps = async () => {
     console.log('Fetching categories...');
     try {
