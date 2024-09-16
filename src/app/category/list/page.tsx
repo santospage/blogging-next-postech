@@ -69,11 +69,9 @@ export default function CategoryPage() {
     if (!confirmDelete) return;
 
     try {
-      // await categoryService.deleteCategory(id);
-      console.log('Deleted category:', id);
+      await categoryService.deleteCategory(id);
       setCategories(categories.filter((category) => category._id !== id));
     } catch (error) {
-      console.error('Failed to delete category', error);
       setError('Failed to delete category');
     }
   };
@@ -99,10 +97,6 @@ export default function CategoryPage() {
                 <button
                   className={styles.button}
                   onClick={() => {
-                    sessionStorage.setItem(
-                      'selectedCategory',
-                      JSON.stringify(category),
-                    );
                     router.push(`/category/form/${category._id}`);
                   }}
                 >

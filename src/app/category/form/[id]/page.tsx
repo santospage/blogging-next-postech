@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { CategoryModel } from '@/models/Categories/Categories';
 import styles from '@/app/category/category.module.css';
@@ -40,42 +40,52 @@ export default function FormPage({ params }: { params: { id: string } }) {
   }, [isLoggedIn, router]);
 
   useEffect(() => {
-    if (id === 'new') {
-      setIsEditMode(false);
-      setCategory({ _id: '', name: '' });
-      setLoading(false);
-    } else {
-      const storedCategory = sessionStorage.getItem('selectedCategory');
-      setCategory(storedCategory ? JSON.parse(storedCategory) : null);
-      setIsEditMode(true);
-      setLoading(false);
-    }
-  }, [id, router]);
+    const fetchData = async () => {
+      if (isLoggedIn === true) {
+        if (id === 'new') {
+          setIsEditMode(false);
+          setCategory({ _id: '', name: '' });
+          setLoading(false);
+        } else {
+          try {
+            const fetchedCategory = await categoryService.getCategoryById(id);
+            setCategory(fetchedCategory ? fetchedCategory : null);
+            setIsEditMode(true);
+          } catch (error) {
+            toast.error('Failed to fetch category details');
+          }
+          setLoading(false);
+        }
+      } else if (isLoggedIn === false) {
+        router.push('/login');
+      }
+    };
+
+    fetchData();
+  }, [id, isLoggedIn, router]);
 
   const handleSubmit = async (values: CategoryModel) => {
     try {
       if (isEditMode) {
-        // await categoryService.updateCategory(id, values); // Update the category in the backend
+        await categoryService.updateCategory(values); // Update the category in the backend
         toast.info('Category updated successfully');
       } else {
-        // await categoryService.createCategory(values); // Create the new category in the backend
+        await categoryService.createCategory(values); // Create the new category in the backend
         toast.info('Category created successfully');
       }
     } catch (error) {
       toast.error(`Failed to submit category: ${(error as Error).message}`);
     }
 
-    sessionStorage.removeItem('selectedCategory');
     router.push('/category/list');
   };
 
   const handleCancel = () => {
-    sessionStorage.removeItem('selectedCategory');
     router.push('/category/list');
   };
 
   if (isLoggedIn === null || !isLoggedIn) {
-    return;
+    return null;
   } else {
     return (
       <div className={styles.wrapper}>
@@ -88,9 +98,16 @@ export default function FormPage({ params }: { params: { id: string } }) {
             name: category?.name || '',
           }}
           onSubmit={handleSubmit}
+          validate={(values) => {
+            const errors: Partial<{ name: string }> = {};
+            if (!values.name) {
+              errors.name = 'Category name is required';
+            }
+            return errors;
+          }}
           enableReinitialize
         >
-          {({ values, handleChange }) => (
+          {() => (
             <Form>
               <div className={styles.gridContainer}>
                 <div className={styles.grid}>
@@ -101,9 +118,12 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       type="text"
                       name="name"
                       placeholder="Name"
-                      value={values.name}
-                      onChange={handleChange}
                     />
+                    <ErrorMessage name="name">
+                      {(msg: string) => (
+                        <span className={styles.span}>{msg}</span>
+                      )}
+                    </ErrorMessage>
                   </label>
                 </div>
               </div>
@@ -114,7 +134,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
                 <button
                   className={styles.button}
                   type="button"
-                  onClick={handleCancel}
+                  onClick={() => handleCancel()}
                 >
                   Cancel
                 </button>

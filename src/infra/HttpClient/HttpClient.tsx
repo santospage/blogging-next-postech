@@ -16,9 +16,20 @@ export async function HttpClient(
   try {
     const response = await fetch(fetchUrl, options);
     const responseBody = await response.json();
-    return responseBody;
+
+    return {
+      status: response.status,
+      ok: response.ok,
+      statusText: response.statusText,
+      body: responseBody,
+    };
   } catch (error) {
     console.error('Error fetching:', error);
-    return [];
+    return {
+      status: 500,
+      ok: false,
+      statusText: 'Network error',
+      body: null,
+    };
   }
 }

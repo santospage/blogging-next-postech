@@ -9,8 +9,8 @@ export const authService = {
       method: 'POST',
       body: { user: values.user, password: values.password },
     }).then(async (response) => {
-      if (!response.token) throw new Error(response.message);
-      tokenService.save(response.token);
+      if (!response.body.token) throw new Error(response.statusText);
+      tokenService.save(response.body.token);
     });
   },
 
