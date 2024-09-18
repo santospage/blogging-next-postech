@@ -3,13 +3,13 @@
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CategoryModel } from '@/models/Categories/Categories';
-import { categoryService } from '@/services/Categories/CategoryService';
-import styles from '@/app/category/category.module.css';
+import { UserModel } from '@/models/Users/Users';
+import { userService } from '@/services/Users/UserService';
+import styles from '@/app/user/user.module.css';
 import { authService } from '@/services/Auth/authService';
 
-export default function CategoryPage() {
-  const [categories, setCategories] = useState<CategoryModel[]>([]);
+export default function UserPage() {
+  const [users, setUsers] = useState<UserModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -37,20 +37,20 @@ export default function CategoryPage() {
     }
   }, [isLoggedIn, router]);
 
-  // Search categories
+  // Search users
   const generateStaticProps = async () => {
-    console.log('Fetching categories...');
+    console.log('Fetching users...');
     try {
-      const fetchedCategories = await categoryService.getCategoriesManagerial();
-      console.log('Fetched Categories:', fetchedCategories);
-      if (Array.isArray(fetchedCategories)) {
-        setCategories(fetchedCategories);
+      const fetchedUsers = await userService.getUsers();
+      console.log('Fetched Users:', fetchedUsers);
+      if (Array.isArray(fetchedUsers)) {
+        setUsers(fetchedUsers);
       } else {
         throw new Error('Unexpected response format');
       }
     } catch (error) {
-      console.error('Failed to fetch categories', error);
-      setError('Failed to fetch categories');
+      console.error('Failed to fetch users', error);
+      setError('Failed to fetch users');
     } finally {
       setLoading(false);
     }
@@ -62,53 +62,55 @@ export default function CategoryPage() {
     }
   }, [isLoggedIn]);
 
-  const deleteCategory = async (id: string) => {
-    const confirmDelete = confirm(
-      'Are you sure you want to delete this category?',
-    );
+  const deleteUser = async (id: string) => {
+    const confirmDelete = confirm('Are you sure you want to delete this user?');
     if (!confirmDelete) return;
 
     try {
-      await categoryService.deleteCategory(id);
-      setCategories(categories.filter((category) => category._id !== id));
+      await userService.deleteUser(id);
+      setUsers(users.filter((user) => user._id !== id));
     } catch (error) {
-      setError('Failed to delete category');
+      setError('Failed to delete user');
     }
   };
 
   if (loading) return <p>Loading...</p>;
-  if (categories.length === 0) return <p>No categories found</p>;
+  if (users.length === 0) return <p>No Users found</p>;
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <h1>Category List</h1>
-        <Link href="/category/form/new">
+        <h1>User List</h1>
+        <Link href="/user/form/new">
           <button className={styles.button}>Add</button>
         </Link>
       </div>
 
       <div className={styles.gridContainer}>
         <div className={styles.gridHeader}>
+          <span>User</span>
           <span>Name</span>
+          <span>Email</span>
           <span>Actions</span>
         </div>
         <div className={styles.grid}>
-          {categories.map((category: CategoryModel) => (
-            <div key={category._id} className={styles.gridItem}>
-              <span>{category.name}</span>
+          {users.map((user: UserModel) => (
+            <div key={user._id} className={styles.gridItem}>
+              <span>{user.user}</span>
+              <span>{user.fullName}</span>
+              <span>{user.email}</span>
               <div className={styles.actions}>
                 <button
                   className={styles.button}
                   onClick={() => {
-                    router.push(`/category/form/${category._id}`);
+                    router.push(`/user/form/${user._id}`);
                   }}
                 >
                   Edit
                 </button>
                 <button
                   className={styles.button}
-                  onClick={() => deleteCategory(category._id)}
+                  onClick={() => deleteUser(user._id)}
                 >
                   Delete
                 </button>

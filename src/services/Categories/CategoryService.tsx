@@ -3,7 +3,7 @@ import { CategoryModel } from '@/models/Categories/Categories';
 import { tokenService } from '@/services/Auth/tokenService';
 
 export const categoryService = {
-  async getCategories(id: string) {
+  async getCategories() {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`;
     const response = await HttpClient(url, {
       method: 'GET',
