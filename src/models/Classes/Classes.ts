@@ -10,9 +10,12 @@ export type ClassRoomModel = {
   title: string;
   detail: string;
   resume: string;
-  image: string;
-  updatedAt: Date;
-  user: {
+  image?: string;
+  updatedAt?: Date;
+  category: {
+    name: string;
+  };
+  user?: {
     user: string;
   };
 };

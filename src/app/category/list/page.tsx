@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CategoryModel } from '@/models/Categories/Categories';
@@ -14,6 +14,7 @@ export default function CategoryPage() {
   const [error, setError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   // Checks the session and sets the isLoggedIn state
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function CategoryPage() {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('loginStatus');
-      router.push('/login');
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
 

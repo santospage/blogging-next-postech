@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
 import { UserModel } from '@/models/Users/Users';
@@ -16,6 +16,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const pathname = usePathname();
 
   // Checks the session and sets the isLoggedIn state
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('loginStatus');
-      router.push('/login');
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
 
