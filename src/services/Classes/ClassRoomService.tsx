@@ -1,6 +1,7 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 import { tokenService } from '@/services/Auth/tokenService';
+import { prepareDataForValidation } from 'formik';
 
 export const classroomService = {
   async getClasses() {
@@ -46,7 +47,8 @@ export const classroomService = {
   async createClassRoom(values: ClassRoomModel) {
     try {
       const token = tokenService.get();
-      const { _id, ...classRoomData } = values;
+      const classRoomValues = prepareClassRoomData(values);
+      const { _id, ...classRoomData } = classRoomValues;
       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes`;
       const response = await HttpClient(url, {
         method: 'POST',
@@ -72,7 +74,8 @@ export const classroomService = {
   async updateClassRoom(values: ClassRoomModel) {
     try {
       const token = tokenService.get();
-      const { _id, ...classRoomData } = values;
+      const classRoomValues = prepareClassRoomData(values);
+      const { _id, ...classRoomData } = classRoomValues;
       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes/${_id}`;
       const response = await HttpClient(url, {
         method: 'PUT',
@@ -119,3 +122,18 @@ export const classroomService = {
     }
   },
 };
+
+function prepareClassRoomData(values: ClassRoomModel) {
+  const { category, user, updatedAt, ...valuesData } = values;
+  const categoryId = '66a0669b0dcd7668a1a7aa8f';
+  const userId = '669d42f5f10b2dc4de0b74af';
+
+  const classRoomData = {
+    ...valuesData,
+    category: categoryId,
+    user: userId,
+    date: new Date(),
+  };
+
+  return classRoomData;
+}

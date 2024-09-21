@@ -16,13 +16,9 @@ export default function LogoutPage() {
       hasLoggedOut.current = true;
       try {
         await tokenService.delete();
-        sessionStorage.removeItem('loginStatus');
+        sessionStorage.removeItem('userSession');
         toast.info('You are being logged out...');
-        const timer = setTimeout(() => {
-          router.push('/');
-        }, 2000);
-
-        return () => clearTimeout(timer);
+        router.push('/');
       } catch (error) {
         toast.error(`Logout failed: ${(error as Error).message}`);
       }

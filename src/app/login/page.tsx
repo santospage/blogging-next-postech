@@ -16,7 +16,7 @@ export default function LoginPage() {
     authService
       .login(values)
       .then(() => {
-        sessionStorage.setItem('loginStatus', 'loggedIn');
+        sessionStorage.setItem('userSession', values.user);
         router.push(redirectUrl);
       })
       .catch((error: Error) => {

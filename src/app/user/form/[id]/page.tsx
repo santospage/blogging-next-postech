@@ -35,7 +35,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   // Redirects to login page if not logged in
   useEffect(() => {
     if (isLoggedIn === false) {
-      sessionStorage.removeItem('loginStatus');
+      sessionStorage.removeItem('userSession');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);

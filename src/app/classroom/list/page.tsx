@@ -33,7 +33,7 @@ export default function ClassRoomListPage() {
   // Redirects to login page if not logged in
   useEffect(() => {
     if (isLoggedIn === false) {
-      sessionStorage.removeItem('loginStatus');
+      sessionStorage.removeItem('userSession');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);

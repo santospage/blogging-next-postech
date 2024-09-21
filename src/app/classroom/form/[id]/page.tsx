@@ -4,19 +4,28 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
+import { parseISO, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { authService } from '@/services/Auth/authService';
+import { categoryService } from '@/services/Categories/CategoryService';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const [classroom, setClassRoom] = useState<ClassRoomModel | null>(null);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [categoryList, setCategoryList] = useState<any[]>([]);
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const pathname = usePathname();
+
+  const formatDate = (isoDateString: string | undefined) => {
+    const date = parseISO(isoDateString || new Date().toISOString());
+    return format(date, 'dd/MM/yyyy', { locale: ptBR });
+  };
 
   // Checks the session and sets the isLoggedIn state
   useEffect(() => {
@@ -35,14 +44,17 @@ export default function FormPage({ params }: { params: { id: string } }) {
   // Redirects to login page if not logged in
   useEffect(() => {
     if (isLoggedIn === false) {
-      sessionStorage.removeItem('loginStatus');
+      sessionStorage.removeItem('userSession');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
+
+  // Fetch classes
   useEffect(() => {
     const fetchData = async () => {
       if (isLoggedIn === true) {
         if (id === 'new') {
+          const userSession = sessionStorage.getItem('userSession');
           setIsEditMode(false);
           setClassRoom({
             _id: '',
@@ -50,8 +62,8 @@ export default function FormPage({ params }: { params: { id: string } }) {
             resume: '',
             detail: '',
             category: { name: '' },
-            user: { user: 'professor' },
-            updatedAt: new Date(),
+            user: { user: userSession || '' },
+            updatedAt: new Date().toISOString(),
             image: '',
           });
           setLoading(false);
@@ -72,6 +84,20 @@ export default function FormPage({ params }: { params: { id: string } }) {
 
     fetchData();
   }, [id, isLoggedIn, router]);
+
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories = await categoryService.getCategoriesManagerial();
+        setCategoryList(categories);
+      } catch {
+        setCategoryList([]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (values: ClassRoomModel) => {
     try {
@@ -109,8 +135,9 @@ export default function FormPage({ params }: { params: { id: string } }) {
             detail: classroom?.detail || '',
             category: { name: classroom?.category.name || '' },
             user: { user: classroom?.user?.user || '' },
-            updatedAt: classroom?.updatedAt || new Date(),
-            image: classroom?.image || '',
+            updatedAt: classroom
+              ? formatDate(classroom.updatedAt)
+              : formatDate(new Date().toISOString()),
           }}
           onSubmit={handleSubmit}
           validate={(values) => {
@@ -181,27 +208,34 @@ export default function FormPage({ params }: { params: { id: string } }) {
                   <label className={styles.label}>
                     Category:
                     <Field
+                      as="select"
+                      name="category.name"
                       className={styles.input}
-                      type="text"
-                      name="category"
-                      placeholder="Category"
-                    />
-                    <ErrorMessage name="category">
+                    >
+                      <option value="" label="Select a category" />
+                      {categoryList.map((category, index) => (
+                        <option key={index} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage name="category.name">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
                       )}
                     </ErrorMessage>
                   </label>
+
                   <label className={styles.label}>
                     User:
                     <Field
                       className={styles.input}
                       type="text"
-                      name="user"
+                      name="user.user"
                       placeholder="User"
                       readOnly
                     />
-                    <ErrorMessage name="user">
+                    <ErrorMessage name="user.user">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
                       )}
@@ -211,7 +245,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
                     Date:
                     <Field
                       className={styles.input}
-                      type="date"
+                      type="text"
                       name="updatedAt"
                       placeholder="Date"
                       readOnly

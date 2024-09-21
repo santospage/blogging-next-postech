@@ -11,11 +11,11 @@ export type ClassRoomModel = {
   detail: string;
   resume: string;
   image?: string;
-  updatedAt?: Date;
+  updatedAt?: string;
   category: {
     name: string;
   };
-  user?: {
+  user: {
     user: string;
   };
 };

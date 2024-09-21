@@ -18,8 +18,8 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const sessionStatus = sessionStorage.getItem('loginStatus');
-    setIsLoggedIn(sessionStatus === 'loggedIn');
+    const sessionStatus = sessionStorage.getItem('userSession');
+    setIsLoggedIn(sessionStatus !== null);
 
     const fetchData = async () => {
       try {
