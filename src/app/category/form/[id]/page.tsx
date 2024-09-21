@@ -36,6 +36,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
+      sessionStorage.removeItem('userId');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);

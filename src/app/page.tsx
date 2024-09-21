@@ -16,10 +16,12 @@ export default function Home() {
   const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [classes, setClasses] = useState<ClassesModel[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userSession, setUserSession] = useState<string | null>(null);
 
   useEffect(() => {
-    const sessionStatus = sessionStorage.getItem('userSession');
-    setIsLoggedIn(sessionStatus !== null);
+    const session = sessionStorage.getItem('userSession');
+    setIsLoggedIn(session !== null);
+    setUserSession(session);
 
     const fetchData = async () => {
       try {
@@ -47,11 +49,11 @@ export default function Home() {
 
         {isLoggedIn ? (
           <a href="/logout" className={styles.loginLink}>
-            Logout
+            {userSession} (Logout)
           </a>
         ) : (
           <a href="/login" className={styles.loginLink}>
-            Login
+            (Login)
           </a>
         )}
       </div>

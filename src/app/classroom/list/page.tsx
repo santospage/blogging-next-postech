@@ -34,6 +34,7 @@ export default function ClassRoomListPage() {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
+      sessionStorage.removeItem('userId');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
@@ -90,6 +91,7 @@ export default function ClassRoomListPage() {
         <div className={styles.gridHeader}>
           <span>Title</span>
           <span>Resume</span>
+          <span>Category</span>
           <span>Responsible</span>
           <span>Date</span>
           <span>Actions</span>
@@ -100,6 +102,7 @@ export default function ClassRoomListPage() {
               <span>{classes.title}</span>
               <span>{classes.resume}</span>
               <span>{classes.category.name}</span>
+              <span>{classes.user.user}</span>
               <span>
                 {classes.updatedAt
                   ? new Date(classes.updatedAt).toLocaleDateString('pt-BR')

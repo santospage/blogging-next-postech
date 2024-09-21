@@ -34,23 +34,21 @@ export default function CategoryPage() {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
+      sessionStorage.removeItem('userId');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
 
   // Search categories
   const generateStaticProps = async () => {
-    console.log('Fetching categories...');
     try {
       const fetchedCategories = await categoryService.getCategoriesManagerial();
-      console.log('Fetched Categories:', fetchedCategories);
       if (Array.isArray(fetchedCategories)) {
         setCategories(fetchedCategories);
       } else {
         throw new Error('Unexpected response format');
       }
     } catch (error) {
-      console.error('Failed to fetch categories', error);
       setError('Failed to fetch categories');
     } finally {
       setLoading(false);

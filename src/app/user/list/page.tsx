@@ -34,23 +34,21 @@ export default function UserPage() {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
+      sessionStorage.removeItem('userId');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
 
   // Search users
   const generateStaticProps = async () => {
-    console.log('Fetching users...');
     try {
       const fetchedUsers = await userService.getUsers();
-      console.log('Fetched Users:', fetchedUsers);
       if (Array.isArray(fetchedUsers)) {
         setUsers(fetchedUsers);
       } else {
         throw new Error('Unexpected response format');
       }
     } catch (error) {
-      console.error('Failed to fetch users', error);
       setError('Failed to fetch users');
     } finally {
       setLoading(false);

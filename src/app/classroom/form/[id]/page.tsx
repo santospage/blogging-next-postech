@@ -11,6 +11,7 @@ import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { authService } from '@/services/Auth/authService';
 import { categoryService } from '@/services/Categories/CategoryService';
+import { CategoryModel } from '@/models/Categories/Categories';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -45,6 +46,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
+      sessionStorage.removeItem('userId');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
@@ -100,12 +102,18 @@ export default function FormPage({ params }: { params: { id: string } }) {
   }, []);
 
   const handleSubmit = async (values: ClassRoomModel) => {
+    const selectedCategory = categoryList.find(
+      (category: CategoryModel) => category.name === values.category.name,
+    );
+
+    const categoryId = selectedCategory ? selectedCategory._id : '';
+
     try {
       if (isEditMode) {
-        await classroomService.updateClassRoom(values); // Update the classroom in the backend
+        await classroomService.updateClassRoom(values, categoryId); // Update the classroom in the backend
         toast.info('Classroom updated successfully');
       } else {
-        await classroomService.createClassRoom(values); // Create the new classroom in the backend
+        await classroomService.createClassRoom(values, categoryId); // Create the new classroom in the backend
         toast.info('Classroom created successfully');
       }
     } catch (error) {
@@ -138,6 +146,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
             updatedAt: classroom
               ? formatDate(classroom.updatedAt)
               : formatDate(new Date().toISOString()),
+            image: classroom?.image || '',
           }}
           onSubmit={handleSubmit}
           validate={(values) => {

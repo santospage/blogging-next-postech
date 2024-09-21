@@ -1,6 +1,7 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { tokenService } from '@/services/Auth/tokenService';
 import { LoginValues } from '@/models/Login/LoginValues';
+import { UserModel } from '@/models/Users/Users';
 
 export const authService = {
   async login(values: LoginValues) {
@@ -26,6 +27,17 @@ export const authService = {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      const userSession = sessionStorage.getItem('userSession');
+      sessionStorage.removeItem('userId');
+
+      const selectedUser = response.body.find(
+        (user: UserModel) => user.user === userSession,
+      );
+
+      if (selectedUser) {
+        sessionStorage.setItem('userId', selectedUser._id);
+      }
 
       return true;
     } catch (error) {

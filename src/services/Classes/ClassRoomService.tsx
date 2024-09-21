@@ -1,7 +1,6 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 import { tokenService } from '@/services/Auth/tokenService';
-import { prepareDataForValidation } from 'formik';
 
 export const classroomService = {
   async getClasses() {
@@ -44,10 +43,10 @@ export const classroomService = {
     return response.body;
   },
 
-  async createClassRoom(values: ClassRoomModel) {
+  async createClassRoom(values: ClassRoomModel, category: string) {
     try {
       const token = tokenService.get();
-      const classRoomValues = prepareClassRoomData(values);
+      const classRoomValues = prepareClassRoomData(values, category);
       const { _id, ...classRoomData } = classRoomValues;
       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes`;
       const response = await HttpClient(url, {
@@ -71,10 +70,10 @@ export const classroomService = {
     }
   },
 
-  async updateClassRoom(values: ClassRoomModel) {
+  async updateClassRoom(values: ClassRoomModel, category: string) {
     try {
       const token = tokenService.get();
-      const classRoomValues = prepareClassRoomData(values);
+      const classRoomValues = prepareClassRoomData(values, category);
       const { _id, ...classRoomData } = classRoomValues;
       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/classes/${_id}`;
       const response = await HttpClient(url, {
@@ -123,10 +122,9 @@ export const classroomService = {
   },
 };
 
-function prepareClassRoomData(values: ClassRoomModel) {
+function prepareClassRoomData(values: ClassRoomModel, categoryId: string) {
   const { category, user, updatedAt, ...valuesData } = values;
-  const categoryId = '66a0669b0dcd7668a1a7aa8f';
-  const userId = '669d42f5f10b2dc4de0b74af';
+  const userId = sessionStorage?.getItem('userId') || '';
 
   const classRoomData = {
     ...valuesData,

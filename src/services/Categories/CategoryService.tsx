@@ -101,7 +101,6 @@ export const categoryService = {
     try {
       const token = tokenService.get();
       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/${id}`;
-      console.log(url);
       const response = await HttpClient(url, {
         method: 'DELETE',
         headers: {

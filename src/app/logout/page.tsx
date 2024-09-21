@@ -17,6 +17,7 @@ export default function LogoutPage() {
       try {
         await tokenService.delete();
         sessionStorage.removeItem('userSession');
+        sessionStorage.removeItem('userId');
         toast.info('You are being logged out...');
         router.push('/');
       } catch (error) {
