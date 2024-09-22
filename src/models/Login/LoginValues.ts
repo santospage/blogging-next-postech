@@ -1,5 +1,4 @@
-export type LoginValues {
-    user: string;
-    password: string;
-  }
-  
+export type LoginValues = {
+  user: string;
+  password: string;
+};

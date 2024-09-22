@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { ClassRoomModel } from '@/models/Classes/Classes';
-import Link from 'next/link';
 
 const ClassRoomPage = async ({ params }: any) => {
   const classRoom: ClassRoomModel = await classroomService.getClassesById(
@@ -34,7 +34,10 @@ const ClassRoomPage = async ({ params }: any) => {
       <div className={styles.publication}>
         <span>Responsible: {classRoom.user.user}</span>
         <span>
-          Published in: {new Date(classRoom.updatedAt).toLocaleString()}
+          Published in:{' '}
+          {classRoom.updatedAt
+            ? new Date(classRoom.updatedAt).toLocaleString()
+            : 'Date unavailable'}
         </span>
       </div>
     </div>

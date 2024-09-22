@@ -1,8 +1,14 @@
 export type ClassesModel = {
   _id: string;
+  resume: string;
   category: {
     name: string;
   };
+};
+
+export type ClassesProps = {
+  classes: ClassesModel[];
+  searchTerm: string;
 };
 
 export type ClassRoomModel = {

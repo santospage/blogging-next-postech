@@ -17,6 +17,8 @@ export default function Home() {
   const [classes, setClasses] = useState<ClassesModel[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userSession, setUserSession] = useState<string | null>(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const session = sessionStorage.getItem('userSession');
@@ -37,13 +39,24 @@ export default function Home() {
     fetchData();
   }, []);
 
+  // Function to handle search form submission
+  const handleSearchSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSearchTerm(searchInput);
+  };
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.search}>
-          <form action="">
-            <input type="text" placeholder="Enter the class" />
-            <button>Search</button>
+          <form onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              placeholder="Enter the class"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <button type="submit">Search</button>
           </form>
         </div>
 
@@ -58,7 +71,11 @@ export default function Home() {
         )}
       </div>
       {categories.length > 0 ? <Categories categories={categories} /> : <div />}
-      {classes.length > 0 ? <Classes classes={classes} /> : <div />}
+      {classes.length > 0 ? (
+        <Classes classes={classes} searchTerm={searchTerm} />
+      ) : (
+        <div />
+      )}
     </main>
   );
 }

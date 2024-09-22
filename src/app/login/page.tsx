@@ -2,10 +2,10 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-import styles from '@/app/login/login.module.css';
-import { authService } from '@/services/Auth/authService';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
+import styles from '@/app/login/login.module.css';
+import { authService } from '@/services/Auth/authService';
 
 export default function LoginPage() {
   const router = useRouter();
