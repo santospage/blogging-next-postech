@@ -19,7 +19,6 @@ const Categories = ({ categories }: CategoriesModel) => {
 
   useLayoutEffect(() => {
     changeCategory('All');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
