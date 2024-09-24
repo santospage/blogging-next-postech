@@ -1,6 +1,6 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { ClassRoomModel } from '@/models/Classes/Classes';
-import { tokenService } from '@/services/Auth/tokenService';
+import { tokenService } from '@/services/Auth/TokenService';
 
 export const classroomService = {
   async getClasses() {

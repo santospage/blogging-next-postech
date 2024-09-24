@@ -1,6 +1,6 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { CategoryModel } from '@/models/Categories/Categories';
-import { tokenService } from '@/services/Auth/tokenService';
+import { tokenService } from '@/services/Auth/TokenService';
 
 export const categoryService = {
   async getCategories() {

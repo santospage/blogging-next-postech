@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { CategoryModel } from '@/models/Categories/Categories';
 import { categoryService } from '@/services/Categories/CategoryService';
 import styles from '@/app/category/category.module.css';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState<CategoryModel[]>([]);

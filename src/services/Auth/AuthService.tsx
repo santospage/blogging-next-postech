@@ -1,5 +1,5 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
-import { tokenService } from '@/services/Auth/tokenService';
+import { tokenService } from '@/services/Auth/TokenService';
 import { LoginValues } from '@/models/Login/LoginValues';
 import { UserModel } from '@/models/Users/Users';
 

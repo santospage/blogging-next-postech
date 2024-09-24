@@ -1,45 +1,43 @@
 import { render, screen, act, waitFor } from '@testing-library/react';
 import FormPage from '@/app/user/form/[id]/page';
 import { userService } from '@/services/Users/UserService';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 import { usePathname, useRouter } from 'next/navigation';
 
-// Mock do serviço e do roteamento
+// Mock the service and routing
 jest.mock('@/services/Users/UserService');
-jest.mock('@/services/Auth/authService');
+jest.mock('@/services/Auth/AuthService');
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  usePathname: jest.fn(), // Mock para o hook usePathname
+  usePathname: jest.fn(),
 }));
 
 describe('FormPage', () => {
   const mockRouter = { push: jest.fn() };
-  const mockParams = { id: '1' }; // ID de teste para simular o parâmetro da rota
+  const mockParams = { id: '1' };
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
     (usePathname as jest.Mock).mockReturnValue('/user/form/1');
   });
 
-  it('deve renderizar corretamente quando logado', async () => {
+  it('should render correctly when logged in', async () => {
     // Mock da sessão do usuário
     (authService.getSession as jest.Mock).mockResolvedValue(true);
     (userService.getUserById as jest.Mock).mockResolvedValue({
       _id: '1',
-      user: 'User Teste',
-      password: 'teste',
+      user: 'User Test',
+      password: 'test',
     });
 
-    // Renderiza o componente dentro do act() para garantir que o estado seja atualizado corretamente
     await act(async () => {
       render(<FormPage params={mockParams} />);
     });
 
-    // Verifica se o título está presente
     expect(screen.getByText('Edit User')).toBeInTheDocument();
   });
 
-  it('deve redirecionar para o login se não estiver logado', async () => {
+  it('should redirect to login if not logged in', async () => {
     (authService.getSession as jest.Mock).mockResolvedValue(false);
 
     await act(async () => {
@@ -51,12 +49,12 @@ describe('FormPage', () => {
     );
   });
 
-  it('deve exibir um indicador de loading durante o carregamento', async () => {
+  it('should display a loading indicator during loading', async () => {
     (authService.getSession as jest.Mock).mockResolvedValue(true);
     (userService.getUserById as jest.Mock).mockResolvedValue({
       _id: '1',
-      user: 'User Teste',
-      password: 'teste',
+      user: 'User Test',
+      password: 'test',
     });
 
     await act(async () => {

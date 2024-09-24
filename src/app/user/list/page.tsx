@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { UserModel } from '@/models/Users/Users';
 import { userService } from '@/services/Users/UserService';
 import styles from '@/app/user/user.module.css';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
 export default function UserPage() {
   const [users, setUsers] = useState<UserModel[]>([]);

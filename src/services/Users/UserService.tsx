@@ -1,6 +1,6 @@
 import { HttpClient } from '@/infra/HttpClient/HttpClient';
 import { UserModel } from '@/models/Users/Users';
-import { tokenService } from '@/services/Auth/tokenService';
+import { tokenService } from '@/services/Auth/TokenService';
 
 export const userService = {
   async getUsers() {

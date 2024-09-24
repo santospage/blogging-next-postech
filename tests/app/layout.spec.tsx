@@ -1,9 +1,7 @@
-// tests/app/layout.spec.tsx
-import { render, screen } from '@testing-library/react';
 import Layout from '@/app/layout';
 import '@testing-library/jest-dom';
 
-// Mock para o Header e Footer
+// Mock for Header and Footer
 jest.mock('@/app/header/page', () => ({
   Header: () => <div>Mocked Header</div>,
 }));

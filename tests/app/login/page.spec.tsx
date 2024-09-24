@@ -1,10 +1,16 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { authService } from '@/services/Auth/authService';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from '@testing-library/react';
+import { authService } from '@/services/Auth/AuthService';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import LoginPage from '@/app/login/page';
 
-jest.mock('@/services/Auth/authService'); // Mock do authService
+jest.mock('@/services/Auth/AuthService');
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
   useSearchParams: jest.fn(),
@@ -28,8 +34,10 @@ describe('LoginPage Component', () => {
     });
   });
 
-  it('should render the login form correctly', () => {
-    render(<LoginPage />);
+  it('should render the login form correctly', async () => {
+    await act(async () => {
+      render(<LoginPage />);
+    });
 
     expect(
       screen.getByText('Welcome to Dynamic Class Blogging'),
@@ -42,7 +50,9 @@ describe('LoginPage Component', () => {
   });
 
   it('should show validation errors when fields are empty', async () => {
-    render(<LoginPage />);
+    await act(async () => {
+      render(<LoginPage />);
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
 
@@ -53,7 +63,9 @@ describe('LoginPage Component', () => {
   });
 
   it('should call authService.login and redirect on successful login', async () => {
-    render(<LoginPage />);
+    await act(async () => {
+      render(<LoginPage />);
+    });
 
     const userInput = screen.getByPlaceholderText('User');
     const passwordInput = screen.getByPlaceholderText('Password');
@@ -61,7 +73,7 @@ describe('LoginPage Component', () => {
     fireEvent.change(userInput, { target: { value: 'testUser' } });
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
 
-    (authService.login as jest.Mock).mockResolvedValueOnce({}); // Simula um login bem-sucedido
+    (authService.login as jest.Mock).mockResolvedValueOnce({});
 
     fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
 
@@ -76,7 +88,9 @@ describe('LoginPage Component', () => {
   });
 
   it('should show error message on failed login', async () => {
-    render(<LoginPage />);
+    await act(async () => {
+      render(<LoginPage />);
+    });
 
     const userInput = screen.getByPlaceholderText('User');
     const passwordInput = screen.getByPlaceholderText('Password');

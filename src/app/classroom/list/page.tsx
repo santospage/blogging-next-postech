@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import styles from '@/app/classroom/classroom.module.css';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
-export default function ClassRoomListPage() {
+export default function ClassRoomPage() {
   const [classes, setClasses] = useState<ClassRoomModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

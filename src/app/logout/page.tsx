@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
-import { tokenService } from '@/services/Auth/tokenService';
+import { tokenService } from '@/services/Auth/TokenService';
 
 export default function LogoutPage() {
   const router = useRouter();

@@ -9,7 +9,7 @@ import { ptBR } from 'date-fns/locale';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 import { categoryService } from '@/services/Categories/CategoryService';
 import { CategoryModel } from '@/models/Categories/Categories';
 

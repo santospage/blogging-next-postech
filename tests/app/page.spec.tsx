@@ -1,21 +1,21 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import Home from '@/app/page'; // ajuste o caminho conforme necessário
+import { render, screen, act } from '@testing-library/react';
+import Home from '@/app/page';
 import { CategoryContext } from '@/context/CategoryContext';
 import { useRouter } from 'next/navigation';
 
-// Mock do useRouter
+// useRouter Mock
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-// Mock do componente Image do Next.js
+// Image component mockup
 jest.mock('next/image', () => (props: any) => {
   return (
     <img {...props} src={props.src || '/placeholder.jpg'} alt={props.alt} />
   );
 });
 
-// Mock dos serviços
+// Mock of services
 jest.mock('@/services/Categories/CategoryService', () => ({
   categoryService: {
     getCategories: jest
@@ -30,9 +30,7 @@ jest.mock('@/services/Classes/ClassRoomService', () => ({
   },
 }));
 
-// Criar um mock para o CategoryContext
 const mockChangeCategory = jest.fn();
-
 const mockCategoryContextValue = {
   changeCategory: mockChangeCategory,
 };
@@ -41,7 +39,7 @@ describe('Home Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // Mockar a implementação do useRouter
+    // Mock the useRouter implementation
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn(),
       query: {},
@@ -72,13 +70,8 @@ describe('Home Component', () => {
       );
     });
 
-    // Verificar a categoria renderizada
     expect(screen.getByText('Category 1')).toBeInTheDocument();
-
-    // Verificar a imagem com alt "Class 1"
     expect(screen.getByAltText('Class 1')).toBeInTheDocument();
-
-    // Verificar o botão "See more" relacionado à classe
     expect(
       screen.getByRole('button', { name: /see more/i }),
     ).toBeInTheDocument();

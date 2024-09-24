@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { CategoryModel } from '@/models/Categories/Categories';
 import styles from '@/app/category/category.module.css';
 import { categoryService } from '@/services/Categories/CategoryService';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;

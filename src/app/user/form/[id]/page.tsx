@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { UserModel } from '@/models/Users/Users';
 import styles from '@/app/user/user.module.css';
 import { userService } from '@/services/Users/UserService';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;

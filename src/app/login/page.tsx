@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import styles from '@/app/login/login.module.css';
-import { authService } from '@/services/Auth/authService';
+import { authService } from '@/services/Auth/AuthService';
 
 export default function LoginPage() {
   const router = useRouter();

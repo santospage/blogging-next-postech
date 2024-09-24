@@ -24,7 +24,6 @@ export async function HttpClient(
       body: responseBody,
     };
   } catch (error) {
-    console.error('Error fetching:', error);
     return {
       status: 500,
       ok: false,
