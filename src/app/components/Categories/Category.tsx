@@ -1,10 +1,11 @@
 'use client';
-import { CategoryContext } from '@/context/CategoryContext';
-import React, { useContext } from 'react';
-import styles from '@/app/components/Categories/categories.module.css';
-import { ICategoryProps } from '@/interfaces/Categories/ICategories';
 
-const Category = ({ cat }: ICategoryProps) => {
+import React, { useContext } from 'react';
+import { CategoryContext } from '@/context/CategoryContext';
+import styles from '@/app/components/Categories/categories.module.css';
+import { CategoryPropsModel } from '@/models/Categories/Categories';
+
+const Category = ({ cat }: CategoryPropsModel) => {
   const { changeCategory }: any = useContext(CategoryContext);
 
   return (

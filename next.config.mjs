@@ -8,12 +8,7 @@ const nextConfig = {
     appDir: true,
   },
   async rewrites() {
-    return [
-      {
-        source: '/components/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/components/:path*`,
-      },
-    ];
+    return [];
   },
   images: {
     remotePatterns: [

@@ -31,3 +31,7 @@
   cursor: pointer;
   border-radius: 10px;
 }
+
+.title:hover {
+  background-color: #3700b3;
+}

@@ -1,9 +1,8 @@
 'use client';
 import { createContext, useState } from 'react';
+import { ReactNode } from 'react';
 
 export const CategoryContext = createContext({});
-
-import { ReactNode } from 'react';
 
 export const CategoryProvider = ({ children }: { children: ReactNode }) => {
   const [category, setCategory] = useState('');

@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import ClassRoom from '@/app/components/Classes/ClassRoom';
 import { CategoryContext } from '@/context/CategoryContext';
 import styles from '@/app/components/Classes/classes.module.css';
-import { IClasses } from '@/interfaces/Classes/IClasses';
+import { ClassesModel, ClassesProps } from '@/models/Classes/Classes';
 
-const Classes = ({ classes }: { classes: IClasses[] }) => {
+const Classes = ({ classes, searchTerm }: ClassesProps) => {
   const { category }: any = useContext(CategoryContext);
 
   // Checks if "classes" is a valid array
@@ -13,13 +13,19 @@ const Classes = ({ classes }: { classes: IClasses[] }) => {
     return <div>No classes available!</div>;
   }
 
-  // Checks if the category is "All" or empty, and displays all classes
-  const filteredClasses =
-    category && category !== 'All'
-      ? classes.filter(
-          (classroom: IClasses) => classroom.category.name === category,
-        )
-      : classes;
+  // Filters classes or categories
+  const filteredClasses = classes.filter((classroom: ClassesModel) => {
+    const matchesCategory =
+      category && category !== 'All'
+        ? classroom.category.name === category
+        : true;
+
+    const matchesSearchTerm = searchTerm
+      ? classroom.resume.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
+
+    return matchesCategory && matchesSearchTerm;
+  });
 
   return (
     <div className={styles.container}>

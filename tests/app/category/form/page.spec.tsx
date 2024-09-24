@@ -1,0 +1,65 @@
+import { render, screen, act, waitFor } from '@testing-library/react';
+import FormPage from '@/app/category/form/[id]/page';
+import { categoryService } from '@/services/Categories/CategoryService';
+import { authService } from '@/services/Auth/AuthService';
+import { usePathname, useRouter } from 'next/navigation';
+
+// Mock the service and routing
+jest.mock('@/services/Categories/CategoryService');
+jest.mock('@/services/Auth/AuthService');
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+  usePathname: jest.fn(),
+}));
+
+describe('FormPage', () => {
+  const mockRouter = { push: jest.fn() };
+  const mockParams = { id: '1' };
+
+  beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    (usePathname as jest.Mock).mockReturnValue('/category/form/1');
+  });
+
+  it('should render correctly when logged in', async () => {
+    (authService.getSession as jest.Mock).mockResolvedValue(true);
+    (categoryService.getCategoryById as jest.Mock).mockResolvedValue({
+      _id: '1',
+      name: 'Category Test',
+    });
+
+    await act(async () => {
+      render(<FormPage params={mockParams} />);
+    });
+
+    expect(screen.getByText('Edit Category')).toBeInTheDocument();
+  });
+
+  it('should redirect to login if not logged in', async () => {
+    (authService.getSession as jest.Mock).mockResolvedValue(false);
+
+    await act(async () => {
+      render(<FormPage params={mockParams} />);
+    });
+
+    expect(mockRouter.push).toHaveBeenCalledWith(
+      '/login?redirect=%2Fcategory%2Fform%2F1',
+    );
+  });
+
+  it('should display a loading indicator during loading', async () => {
+    (authService.getSession as jest.Mock).mockResolvedValue(true);
+    (categoryService.getCategoryById as jest.Mock).mockResolvedValue({
+      _id: '1',
+      name: 'Category Test',
+    });
+
+    await act(async () => {
+      render(<FormPage params={mockParams} />);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Edit Category')).toBeInTheDocument();
+    });
+  });
+});
