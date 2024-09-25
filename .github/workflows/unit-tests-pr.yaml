@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: 'npm'
       - name: Install the dependencies
         run: npm i
       - name: Run the tests
-        run: npm test
+        run: npm test  -- --verbose
