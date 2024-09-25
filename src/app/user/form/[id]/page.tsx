@@ -69,10 +69,12 @@ export default function FormPage({ params }: { params: { id: string } }) {
   const handleSubmit = async (values: UserModel) => {
     try {
       if (isEditMode) {
-        await userService.updateUser(values); // Update the user in the backend
+        // Update the user in the backend
+        await userService.updateUser(values);
         toast.info('User updated successfully');
       } else {
-        await userService.createUser(values); // Create the new user in the backend
+        // Create the new user in the backend
+        await userService.createUser(values);
         toast.info('User created successfully');
       }
     } catch (error) {

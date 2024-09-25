@@ -45,6 +45,7 @@ describe('authService', () => {
   });
 
   describe('getSession', () => {
+    // eslint-disable-next-line max-len
     it('should return true if a valid token is found and user is selected', async () => {
       (tokenService.get as jest.Mock).mockReturnValue('validToken');
       (HttpClient as jest.Mock).mockResolvedValue({
@@ -77,6 +78,7 @@ describe('authService', () => {
       expect(result).toBe(false);
     });
 
+    // eslint-disable-next-line max-len
     it('should return false if an error occurs during the API call', async () => {
       (tokenService.get as jest.Mock).mockReturnValue('validToken');
       (HttpClient as jest.Mock).mockRejectedValue(new Error('API Error'));

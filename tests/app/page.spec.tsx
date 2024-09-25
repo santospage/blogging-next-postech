@@ -9,7 +9,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Image component mockup
-jest.mock('next/image', () => (props: any) => {
+jest.mock('next/image', () => (props: { src?: string; alt: string }) => {
   return (
     <img {...props} src={props.src || '/placeholder.jpg'} alt={props.alt} />
   );

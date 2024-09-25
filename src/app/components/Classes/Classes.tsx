@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useContext } from 'react';
 import ClassRoom from '@/app/components/Classes/ClassRoom';

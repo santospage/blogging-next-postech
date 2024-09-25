@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Header } from '@/app/header/page';
+import Header from '@/app/header/page';
 
 jest.mock('../../../public/logo.png', () => 'test-logo-stub');
 

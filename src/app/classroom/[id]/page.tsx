@@ -5,7 +5,11 @@ import styles from '@/app/classroom/classroom.module.css';
 import { classroomService } from '@/services/Classes/ClassRoomService';
 import { ClassRoomModel } from '@/models/Classes/Classes';
 
-const ClassRoomPage = async ({ params }: any) => {
+interface Params {
+  id: string;
+}
+
+const ClassRoomPage = async ({ params }: { params: Params }) => {
   const classRoom: ClassRoomModel = await classroomService.getClassesById(
     params.id,
   );

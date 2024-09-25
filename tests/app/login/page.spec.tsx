@@ -62,6 +62,7 @@ describe('LoginPage Component', () => {
     });
   });
 
+  // eslint-disable-next-line max-len
   it('should call authService.login and redirect on successful login', async () => {
     await act(async () => {
       render(<LoginPage />);

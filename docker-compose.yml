@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: blogging-next
+    build:
+      context: .
+    restart: always
+    ports:
+      - '3001:3000'
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:3000/blogging

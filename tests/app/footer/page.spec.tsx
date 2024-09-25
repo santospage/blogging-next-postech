@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Footer } from '@/app/footer/page';
+import Footer from '@/app/footer/page';
 import '@testing-library/jest-dom';
 
 // Mock the style file
