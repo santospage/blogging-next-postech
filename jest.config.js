@@ -1,11 +1,19 @@
-module.exports = {
-  testEnvironment: 'jsdom',
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+/**  @type {import('jest').Config} */
+const config = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testEnvironment: 'jest-environment-jsdom',
+  preset: 'ts-jest',
   moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    // Mapeamento de alias para resolver caminhos como '@/services/*'
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/next/'],
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.ts(x)'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
+
+module.exports = createJestConfig(config);
