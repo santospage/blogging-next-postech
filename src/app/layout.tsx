@@ -4,8 +4,8 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import '@/app/globals.css';
 import { CategoryProvider } from '@/context/CategoryContext';
-import { Header } from '@/app/header/page';
-import { Footer } from '@/app/footer/page';
+import Header from '@/app/header/page';
+import Footer from '@/app/footer/page';
 
 export const metadata: Metadata = {
   title: 'Blogging',

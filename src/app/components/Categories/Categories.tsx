@@ -7,6 +7,7 @@ import { CategoriesModel } from '@/models/Categories/Categories';
 import { CategoryModel } from '@/models/Categories/Categories';
 
 const Categories = ({ categories }: CategoriesModel) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { changeCategory }: any = useContext(CategoryContext);
 
   // Ensure categories is a valid array

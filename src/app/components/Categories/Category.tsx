@@ -6,6 +6,7 @@ import styles from '@/app/components/Categories/categories.module.css';
 import { CategoryPropsModel } from '@/models/Categories/Categories';
 
 const Category = ({ cat }: CategoryPropsModel) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { changeCategory }: any = useContext(CategoryContext);
 
   return (

@@ -18,7 +18,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
   const [classroom, setClassRoom] = useState<ClassRoomModel | null>(null);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [categoryList, setCategoryList] = useState<any[]>([]);
+  const [categoryList, setCategoryList] = useState<CategoryModel[]>([]);
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const pathname = usePathname();
@@ -110,10 +110,12 @@ export default function FormPage({ params }: { params: { id: string } }) {
 
     try {
       if (isEditMode) {
-        await classroomService.updateClassRoom(values, categoryId); // Update the classroom in the backend
+        // Update the classroom in the backend
+        await classroomService.updateClassRoom(values, categoryId);
         toast.info('Classroom updated successfully');
       } else {
-        await classroomService.createClassRoom(values, categoryId); // Create the new classroom in the backend
+        // Create the new classroom in the backend
+        await classroomService.createClassRoom(values, categoryId);
         toast.info('Classroom created successfully');
       }
     } catch (error) {

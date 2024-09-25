@@ -69,10 +69,12 @@ export default function FormPage({ params }: { params: { id: string } }) {
   const handleSubmit = async (values: CategoryModel) => {
     try {
       if (isEditMode) {
-        await categoryService.updateCategory(values); // Update the category in the backend
+        // Update the category in the backend
+        await categoryService.updateCategory(values);
         toast.info('Category updated successfully');
       } else {
-        await categoryService.createCategory(values); // Create the new category in the backend
+        // Create the new category in the backend
+        await categoryService.createCategory(values);
         toast.info('Category created successfully');
       }
     } catch (error) {

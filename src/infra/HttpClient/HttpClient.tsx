@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestInit } from 'node-fetch';
 
 export async function HttpClient(

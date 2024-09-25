@@ -39,6 +39,7 @@ fdescribe('ClassRoomPage', () => {
     });
   });
 
+  // eslint-disable-next-line max-len
   it('should display "No classes found" when there are no classes', async () => {
     (classroomService.getClasses as jest.Mock).mockResolvedValueOnce([]);
 

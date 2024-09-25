@@ -58,6 +58,7 @@ describe('CategoryPage', () => {
     });
   });
 
+  // eslint-disable-next-line max-len
   it('should display "No categories found" when there are no categories', async () => {
     (
       categoryService.getCategoriesManagerial as jest.Mock

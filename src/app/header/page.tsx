@@ -6,7 +6,7 @@ import Link from 'next/link';
 import styles from '@/app/header/header.module.css';
 import logo from '../../../public/logo.png';
 
-export const Header = () => {
+const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -44,3 +44,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;
