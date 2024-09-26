@@ -11,7 +11,6 @@ const config = {
   testEnvironment: 'jest-environment-jsdom',
   preset: 'ts-jest',
   moduleNameMapper: {
-    // Mapeamento de alias para resolver caminhos como '@/services/*'
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 };
