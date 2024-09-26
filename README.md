@@ -245,11 +245,13 @@ Este APP disponibiliza as seguintes funcionalidades a partir da URL\_ `localhost
 
 ## Observações
 
-A lista de aulas disponíveis e seus detalhes poderão ser acessadas livremente, sem a necessidade de identifficação do usuário, as demais funcionalidades exigem login de usuário cadastrado.
+A lista de aulas disponíveis e seus detalhes poderão ser acessadas livremente, sem a necessidade de identificação do usuário, as demais funcionalidades exigem login de usuário cadastrado.
 
 Usuário padrão pré-cadastrado:
 `User: professor`
 `Password: 123456`
+
+## Telas
 
 ![Blogging](https://drive.google.com/uc?export=view&id=1tGgjFGA1vcMDSGEG7gkC9htsDCqvqDhj)
 
