@@ -4,25 +4,25 @@
 
 ## Resumo do projeto
 
-Projeto de APP desenvolvido em NEXT.Js para um Blogging de Aulas com sistema de cadastro e manutenção de usuários, categorias e aulas ministradas.
+Projeto de APP desenvolvido em NEXT.JS para um Blogging de Aulas com sistema de cadastro e manutenção de usuários, categorias e aulas ministradas.
 
 ## Stack utilizada
 
-- `tailwindcss/aspect-ratio` v0.4.2
-- `tailwindcss/forms` v0.5.9
-- `tailwindcss/typography` v0.5.15
-- `cors` v2.8.5
-- `date-fns` v4.1.0
-- `formik` v2.4.6
 - `next` v14.2.13
-- `node-fetch` v3.3.2
-- `nookies` v2.5.2
 - `react` v18.0.0
 - `react-dom"` v18.0.0
 - `react-hook-form` v7.53.0
 - `react-icons` v5.3.0
 - `react-router-dom` v6.26.2
 - `react-toastify` v10.0.5
+- `formik` v2.4.6
+- `node-fetch` v3.3.2
+- `nookies` v2.5.2
+- `tailwindcss/aspect-ratio` v0.4.2
+- `tailwindcss/forms` v0.5.9
+- `tailwindcss/typography` v0.5.15
+- `cors` v2.8.5
+- `date-fns` v4.1.0
 - `sharp` v0.33.5
 
 ## Pré-Requisitos
@@ -31,8 +31,8 @@ A utilização deste APP depende de um backend para fornecer as APIs necessária
 
 Antes de rodar este projeto, é essencial que o backend esteja instalado e configurado corretamente.
 
-A documentação completa sobre a instalação, configuração e execução do backend está disponível no repositório abaixo:
-https://github.com/santospage/aulas-express-mongo
+A documentação completa sobre a instalação, configuração e execução do backend está disponível no repositório:
+https://github.com/santospage/blogging-express-postech
 
 ## Instalação
 
@@ -177,7 +177,7 @@ Este projeto já conta com o código necessário para subir o APP em um servidor
 
 ### Instalação do projeto
 
-Este projeto está pronto para ser executado em um ambiente Docker. Por este motivo, será necessária apenas a instalação do Docker, não sendo necessária a instalação manual do projeto via
+O projeto está pronto para ser executado em um ambiente Docker. Por este motivo, será necessária apenas a instalação do Docker, não sendo necessária a instalação manual do projeto via
 `npm install`.
 
 Caso não tenha o Docker instalado, siga as instruções para seu sistema operacional na [documentação oficial do Docker](https://docs.docker.com/get-docker/).
@@ -251,10 +251,10 @@ Usuário padrão pré-cadastrado:
 `User: professor`
 `Password: 123456`
 
-## Roadmap
-
-- Autenticação
-- Tratamento de erros
-- Validações
-
 ![Blogging](https://drive.google.com/uc?export=view&id=1tGgjFGA1vcMDSGEG7gkC9htsDCqvqDhj)
+
+![Detail](https://drive.google.com/uc?export=view&id=1C3rT_ewHgePx0bNNSExnPyeEfoNRSKnO)
+
+![Classes](https://drive.google.com/uc?export=view&id=1Z_tPSKEPc8E0s1qMXyQX47meX9KaVJxH)
+
+![ClassRoom](https://drive.google.com/uc?export=view&id=1AaBFaicsl4NUgWZjB_na3PikpzctxtTH)
