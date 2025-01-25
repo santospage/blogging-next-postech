@@ -12,6 +12,7 @@ import { classroomService } from '@/services/Classes/ClassRoomService';
 import { authService } from '@/services/Auth/AuthService';
 import { categoryService } from '@/services/Categories/CategoryService';
 import { CategoryModel } from '@/models/Categories/Categories';
+import { aiService } from '@/services/OpenAI/OpenAIService';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -129,6 +130,40 @@ export default function FormPage({ params }: { params: { id: string } }) {
     router.push('/classroom/list');
   };
 
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleAddContent = async (field: keyof ClassRoomModel) => {
+    setIsGenerating(true);
+    try {
+      const topic = classroom?.title;
+
+      if (!topic) {
+        toast.error('Mandatory title to generate with AI.');
+        setIsGenerating(false);
+        return;
+      }
+
+      const aiContent = await aiService.generateContent(topic, field);
+
+      if (classroom && aiContent) {
+        setClassRoom((prevState) => {
+          if (!prevState) return null;
+          return {
+            ...prevState,
+            [field]: aiContent,
+          };
+        });
+        toast.success('Content added successfully!');
+      } else {
+        toast.error('Failed to generate content using AI.');
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${(error as Error).message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   if (isLoggedIn === null || !isLoggedIn) {
     return null;
   } else {
@@ -195,6 +230,16 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       name="resume"
                       placeholder="Resume"
                     />
+                    <div className={styles.inputWithButton}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={() => handleAddContent('resume')}
+                        disabled={isGenerating}
+                      >
+                        {isGenerating ? 'Generating...' : 'Add with IA'}
+                      </button>
+                    </div>
                     <ErrorMessage name="resume">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
@@ -210,6 +255,16 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       name="detail"
                       placeholder="Detail"
                     />
+                    <div className={styles.inputWithButton}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={() => handleAddContent('detail')}
+                        disabled={isGenerating}
+                      >
+                        {isGenerating ? 'Generating...' : 'Add with IA'}
+                      </button>
+                    </div>
                     <ErrorMessage name="detail">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
