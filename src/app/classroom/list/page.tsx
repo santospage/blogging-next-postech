@@ -35,6 +35,7 @@ export default function ClassRoomPage() {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('classTitle');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
@@ -122,6 +123,15 @@ export default function ClassRoomPage() {
                   onClick={() => deleteClassRoom(classes._id)}
                 >
                   Delete
+                </button>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    sessionStorage.setItem('classTitle', classes.title);
+                    router.push('/classroom/test');
+                  }}
+                >
+                  Test
                 </button>
               </div>
             </div>

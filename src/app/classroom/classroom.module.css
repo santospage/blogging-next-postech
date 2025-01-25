@@ -145,6 +145,17 @@
   height: 300px;
 }
 
+.inputTest {
+  flex: 1;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 0px;
+  background-color: #d9d9f3;
+  margin-left: 10px;
+  height: 700px;
+}
+
 .span {
   color: red;
   margin-left: 10px;

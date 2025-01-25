@@ -48,6 +48,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('classTitle');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
@@ -132,18 +133,29 @@ export default function FormPage({ params }: { params: { id: string } }) {
 
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleAddContent = async (field: keyof ClassRoomModel) => {
+  const handleAddContent = async (
+    field: keyof ClassRoomModel,
+    topic: string,
+    setFieldValue: (field: string, value: any) => void,
+  ) => {
     setIsGenerating(true);
     try {
-      const topic = classroom?.title;
-
       if (!topic) {
         toast.error('Mandatory title to generate with AI.');
         setIsGenerating(false);
         return;
       }
 
-      const aiContent = await aiService.generateContent(topic, field);
+      let aiContent: string | null = null;
+
+      try {
+        aiContent = await aiService.createAI(topic, field);
+        setFieldValue(field, aiContent);
+      } catch (generateError) {
+        toast.error('Error generating content with AI.');
+        setIsGenerating(false);
+        return;
+      }
 
       if (classroom && aiContent) {
         setClassRoom((prevState) => {
@@ -173,6 +185,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           <h1>{isEditMode ? 'Edit Classroom' : 'Add Classroom'}</h1>
         </div>
         <Formik
+          key={classroom?._id || 'new'}
           initialValues={{
             _id: classroom?._id || '',
             title: classroom?.title || '',
@@ -202,9 +215,9 @@ export default function FormPage({ params }: { params: { id: string } }) {
               errors.category = 'Category is required';
             }
           }}
-          enableReinitialize
+          enableReinitialize={false}
         >
-          {() => (
+          {({ values, setFieldValue }) => (
             <Form>
               <div className={styles.gridContainer}>
                 <div className={styles.grid}>
@@ -234,7 +247,13 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       <button
                         type="button"
                         className={styles.actionButton}
-                        onClick={() => handleAddContent('resume')}
+                        onClick={() =>
+                          handleAddContent(
+                            'resume',
+                            values.title,
+                            setFieldValue,
+                          )
+                        }
                         disabled={isGenerating}
                       >
                         {isGenerating ? 'Generating...' : 'Add with IA'}
@@ -259,7 +278,13 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       <button
                         type="button"
                         className={styles.actionButton}
-                        onClick={() => handleAddContent('detail')}
+                        onClick={() =>
+                          handleAddContent(
+                            'detail',
+                            values.title,
+                            setFieldValue,
+                          )
+                        }
                         disabled={isGenerating}
                       >
                         {isGenerating ? 'Generating...' : 'Add with IA'}
@@ -299,6 +324,11 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       type="text"
                       name="user.user"
                       placeholder="User"
+                      value={
+                        isEditMode
+                          ? classroom?.user?.user || ''
+                          : sessionStorage.getItem('userSession') || ''
+                      }
                       readOnly
                     />
                     <ErrorMessage name="user.user">

@@ -37,6 +37,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('classTitle');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
