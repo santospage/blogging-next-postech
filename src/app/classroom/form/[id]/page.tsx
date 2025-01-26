@@ -131,18 +131,29 @@ export default function FormPage({ params }: { params: { id: string } }) {
     router.push('/classroom/list');
   };
 
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isDetailGenerating, setIsDetailGenerating] = useState(false);
+  const [isResumeGenerating, setIsResumeGenerating] = useState(false);
 
   const handleAddContent = async (
     field: keyof ClassRoomModel,
     topic: string,
-    setFieldValue: (field: string, value: any) => void,
+    setFieldValue: (field: string, value: string | boolean) => void,
   ) => {
-    setIsGenerating(true);
+    if (field === 'detail') {
+      setIsDetailGenerating(true);
+    } else if (field === 'resume') {
+      setIsResumeGenerating(true);
+    }
+
     try {
       if (!topic) {
         toast.error('Mandatory title to generate with AI.');
-        setIsGenerating(false);
+        if (field === 'detail') {
+          setIsDetailGenerating(false);
+        } else if (field === 'resume') {
+          setIsResumeGenerating(false);
+        }
+
         return;
       }
 
@@ -150,10 +161,16 @@ export default function FormPage({ params }: { params: { id: string } }) {
 
       try {
         aiContent = await aiService.createAI(topic, field);
-        setFieldValue(field, aiContent);
+        if (aiContent !== null) {
+          setFieldValue(field, aiContent);
+        }
       } catch (generateError) {
         toast.error('Error generating content with AI.');
-        setIsGenerating(false);
+        if (field === 'detail') {
+          setIsDetailGenerating(false);
+        } else if (field === 'resume') {
+          setIsResumeGenerating(false);
+        }
         return;
       }
 
@@ -172,7 +189,11 @@ export default function FormPage({ params }: { params: { id: string } }) {
     } catch (error) {
       toast.error(`An error occurred: ${(error as Error).message}`);
     } finally {
-      setIsGenerating(false);
+      if (field === 'detail') {
+        setIsDetailGenerating(false);
+      } else if (field === 'resume') {
+        setIsResumeGenerating(false);
+      }
     }
   };
 
@@ -254,9 +275,9 @@ export default function FormPage({ params }: { params: { id: string } }) {
                             setFieldValue,
                           )
                         }
-                        disabled={isGenerating}
+                        disabled={isResumeGenerating}
                       >
-                        {isGenerating ? 'Generating...' : 'Add with IA'}
+                        {isResumeGenerating ? 'Generating...' : 'Add with IA'}
                       </button>
                     </div>
                     <ErrorMessage name="resume">
@@ -285,9 +306,9 @@ export default function FormPage({ params }: { params: { id: string } }) {
                             setFieldValue,
                           )
                         }
-                        disabled={isGenerating}
+                        disabled={isDetailGenerating}
                       >
-                        {isGenerating ? 'Generating...' : 'Add with IA'}
+                        {isDetailGenerating ? 'Generating...' : 'Add with IA'}
                       </button>
                     </div>
                     <ErrorMessage name="detail">

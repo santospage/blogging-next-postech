@@ -128,7 +128,7 @@ export default function ClassRoomPage() {
                   className={styles.button}
                   onClick={() => {
                     sessionStorage.setItem('classTitle', classes.title);
-                    router.push('/classroom/test');
+                    router.push('/classroom/assessment');
                   }}
                 >
                   Test
