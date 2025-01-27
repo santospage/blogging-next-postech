@@ -145,7 +145,39 @@
   height: 300px;
 }
 
+.inputAssessment {
+  flex: 1;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 0px;
+  background-color: #d9d9f3;
+  margin-left: 10px;
+  height: 700px;
+}
+
 .span {
   color: red;
   margin-left: 10px;
+}
+
+.inputWithButton {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.actionButton {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #3299cc;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.actionButton:hover {
+  background-color: #3700b3;
 }

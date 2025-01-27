@@ -12,6 +12,7 @@ import { classroomService } from '@/services/Classes/ClassRoomService';
 import { authService } from '@/services/Auth/AuthService';
 import { categoryService } from '@/services/Categories/CategoryService';
 import { CategoryModel } from '@/models/Categories/Categories';
+import { aiService } from '@/services/OpenAI/OpenAIService';
 
 export default function FormPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -47,6 +48,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
     if (isLoggedIn === false) {
       sessionStorage.removeItem('userSession');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('classTitle');
       router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
     }
   }, [isLoggedIn, router]);
@@ -129,6 +131,72 @@ export default function FormPage({ params }: { params: { id: string } }) {
     router.push('/classroom/list');
   };
 
+  const [isDetailGenerating, setIsDetailGenerating] = useState(false);
+  const [isResumeGenerating, setIsResumeGenerating] = useState(false);
+
+  const handleAddContent = async (
+    field: keyof ClassRoomModel,
+    topic: string,
+    setFieldValue: (field: string, value: string | boolean) => void,
+  ) => {
+    if (field === 'detail') {
+      setIsDetailGenerating(true);
+    } else if (field === 'resume') {
+      setIsResumeGenerating(true);
+    }
+
+    try {
+      if (!topic) {
+        toast.error('Mandatory title to generate with AI.');
+        if (field === 'detail') {
+          setIsDetailGenerating(false);
+        } else if (field === 'resume') {
+          setIsResumeGenerating(false);
+        }
+
+        return;
+      }
+
+      let aiContent: string | null = null;
+
+      try {
+        aiContent = await aiService.createAI(topic, field);
+        if (aiContent !== null) {
+          setFieldValue(field, aiContent);
+        }
+      } catch (generateError) {
+        toast.error('Error generating content with AI.');
+        if (field === 'detail') {
+          setIsDetailGenerating(false);
+        } else if (field === 'resume') {
+          setIsResumeGenerating(false);
+        }
+        return;
+      }
+
+      if (classroom && aiContent) {
+        setClassRoom((prevState) => {
+          if (!prevState) return null;
+          return {
+            ...prevState,
+            [field]: aiContent,
+          };
+        });
+        toast.success('Content added successfully!');
+      } else {
+        toast.error('Failed to generate content using AI.');
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${(error as Error).message}`);
+    } finally {
+      if (field === 'detail') {
+        setIsDetailGenerating(false);
+      } else if (field === 'resume') {
+        setIsResumeGenerating(false);
+      }
+    }
+  };
+
   if (isLoggedIn === null || !isLoggedIn) {
     return null;
   } else {
@@ -138,6 +206,7 @@ export default function FormPage({ params }: { params: { id: string } }) {
           <h1>{isEditMode ? 'Edit Classroom' : 'Add Classroom'}</h1>
         </div>
         <Formik
+          key={classroom?._id || 'new'}
           initialValues={{
             _id: classroom?._id || '',
             title: classroom?.title || '',
@@ -167,9 +236,9 @@ export default function FormPage({ params }: { params: { id: string } }) {
               errors.category = 'Category is required';
             }
           }}
-          enableReinitialize
+          enableReinitialize={false}
         >
-          {() => (
+          {({ values, setFieldValue }) => (
             <Form>
               <div className={styles.gridContainer}>
                 <div className={styles.grid}>
@@ -195,6 +264,22 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       name="resume"
                       placeholder="Resume"
                     />
+                    <div className={styles.inputWithButton}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={() =>
+                          handleAddContent(
+                            'resume',
+                            values.title,
+                            setFieldValue,
+                          )
+                        }
+                        disabled={isResumeGenerating}
+                      >
+                        {isResumeGenerating ? 'Generating...' : 'Add with IA'}
+                      </button>
+                    </div>
                     <ErrorMessage name="resume">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
@@ -210,6 +295,22 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       name="detail"
                       placeholder="Detail"
                     />
+                    <div className={styles.inputWithButton}>
+                      <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={() =>
+                          handleAddContent(
+                            'detail',
+                            values.title,
+                            setFieldValue,
+                          )
+                        }
+                        disabled={isDetailGenerating}
+                      >
+                        {isDetailGenerating ? 'Generating...' : 'Add with IA'}
+                      </button>
+                    </div>
                     <ErrorMessage name="detail">
                       {(msg: string) => (
                         <span className={styles.span}>{msg}</span>
@@ -244,6 +345,11 @@ export default function FormPage({ params }: { params: { id: string } }) {
                       type="text"
                       name="user.user"
                       placeholder="User"
+                      value={
+                        isEditMode
+                          ? classroom?.user?.user || ''
+                          : sessionStorage.getItem('userSession') || ''
+                      }
                       readOnly
                     />
                     <ErrorMessage name="user.user">

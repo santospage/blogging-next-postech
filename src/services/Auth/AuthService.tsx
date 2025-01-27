@@ -30,6 +30,7 @@ export const authService = {
 
       const userSession = sessionStorage.getItem('userSession');
       sessionStorage.removeItem('userId');
+      sessionStorage.removeItem('classTitle');
 
       const selectedUser = response.body.find(
         (user: UserModel) => user.user === userSession,
