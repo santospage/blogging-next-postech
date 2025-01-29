@@ -53,6 +53,8 @@ Este projeto já conta com o código necessário para subir o APP em um servidor
 │   │   │   │   └── page.tsx
 │   │   │   └── category.module.css
 │   │   ├── classroom
+│   │   │   ├── assessment
+│   │   │   │   └── page.tsx
 │   │   │   ├── form
 │   │   │   │   └── [id]
 │   │   │   │       └── page.tsx
@@ -113,6 +115,8 @@ Este projeto já conta com o código necessário para subir o APP em um servidor
 │   │   │   │   └── TokenService.tsx
 │   │   │   ├── Categories
 │   │   │   │   └── CategoryService.tsx
+│   │   │   ├── OpenAI
+│   │   │   │   └── OpenAIService.tsx
 │   │   │   ├── Classes
 │   │   │   │   └── ClassRoomService.tsx
 │   │   │   └── Users
@@ -125,6 +129,8 @@ Este projeto já conta com o código necessário para subir o APP em um servidor
 │   │   │   └── list
 │   │   │       └── page.spec.tsx
 │   │   ├── classroom
+│   │   │   ├── assessment
+│   │   │   │   └── page.spec.tsx
 │   │   │   ├── form
 │   │   │   │   └── page.spec.tsx
 │   │   │   └── list
@@ -154,6 +160,8 @@ Este projeto já conta com o código necessário para subir o APP em um servidor
 │   │   │   │   └── CategoryService.spec.tsx
 │   │   │   ├── Classes
 │   │   │   │   └── ClassRoomService.spec.tsx
+│   │   │   ├── OpenAI
+│   │   │   │   └── OpenAIService.spec.tsx
 │   │   │   └── Users
 │   │   │       └── UserService.spec.tsx
 ├── .editorconfig
